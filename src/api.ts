@@ -9,12 +9,22 @@ const api = axios.create(
     }
 )
 
+export interface ResponseUser {
+    image?: string,
+    username: string,
+    name?: string
+    is_superuser:boolean
+}
 
+export type User = ResponseUser & {
+    image: string
+
+}
 api.interceptors.request.use(
     (config) => {
         const token = getTokenFromCookies()
         if (token && config.headers) {
-            config.headers['Authorization'] = `Token ${token}`;
+            config.headers['Authorization'] = `Bearer ${token}`;
         }
         return config;
     }
@@ -74,7 +84,7 @@ export async function login(data: {
 
 }
 
-export async function getUser(){
+export async function getUser() {
     const url = `${API_BASE}/users/me/`;
-    return (await api.get(url))
+    return (await api.get(url)).data as ResponseUser
 }

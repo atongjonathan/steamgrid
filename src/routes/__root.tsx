@@ -8,8 +8,8 @@ const queryClient = new QueryClient()
 
 export const Route = createRootRoute({
   component: () => (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
         <Toaster position="top-right" closeButton toastOptions={{
           classNames: {
             toast: '!bg-subMain',
@@ -21,8 +21,8 @@ export const Route = createRootRoute({
 
         <Outlet />
         <TanStackRouterDevtools />
-      </QueryClientProvider>
 
-    </AuthProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   ),
 })

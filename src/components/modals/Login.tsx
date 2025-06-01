@@ -21,8 +21,8 @@ import {
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { getErrorMessage, getUser, login } from "@/api"
+import { useMutation } from "@tanstack/react-query"
+import { getErrorMessage, login } from "@/api"
 import type { AxiosError } from "axios"
 import { Loader2Icon } from "lucide-react"
 import { setTokenCookie } from "../context/AuthContext"
@@ -81,12 +81,6 @@ export default function Login({ loginClass, loginProps }: LoginProps) {
         setIsSignUpOpen(true)
     }
 
-    const { data } = useQuery(
-        {
-            queryKey: ["getUser"],
-            queryFn: getUser
-        }
-    )
 
     return (
         <Dialog open={isLoginOpen} onOpenChange={setisLoginOpen}>

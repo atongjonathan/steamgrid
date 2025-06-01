@@ -1,7 +1,5 @@
 import { Link, } from "@tanstack/react-router";
 import logo from "../../../assets/logo.png"
-import { MdAccessTime } from "react-icons/md";
-import { FaHeart } from "react-icons/fa";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -14,7 +12,9 @@ import { useState, type FC } from "react";
 import Login from "@/components/modals/Login";
 import SignUp from "@/components/modals/SignUp";
 import { Input } from "@/components/ui/input";
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import MoreNavItem from "./MoreNavItem";
+import { Heart, History, Settings } from "lucide-react";
 
 export const UserMenuItem: FC<{ baseClasses: string }> = ({ baseClasses }) => {
 
@@ -45,11 +45,11 @@ export const UserMenuItem: FC<{ baseClasses: string }> = ({ baseClasses }) => {
       {
         user ? <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link className={linkClass} to="/profile">
-              <div className="relative inline-flex items-center justify-center w-5 h-5 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                <img src={user.image} alt={`${user?.username} avatar`} className="absolute w-5 h-5 rounded-full" />
-              </div>
-              {user.username}
+            <Link to="/profile">
+              <Avatar title={user.username}>
+                <AvatarImage src={user.image} alt={user.username} />
+                <AvatarFallback className={clsx(signUpClass, 'rounded-full')}>{user.username.slice(0, 3)}</AvatarFallback>
+              </Avatar>
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -62,11 +62,9 @@ export const UserMenuItem: FC<{ baseClasses: string }> = ({ baseClasses }) => {
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-
                   <SignUp loginClass={signUpClass} signUpProps={signUpProps} />
                 </NavigationMenuLink>
               </NavigationMenuItem>
-
             </>
 
           )
@@ -95,7 +93,7 @@ const LargeNavbar = () => {
           />
         </Link>
       </NavigationMenuLink>
-      <NavigationMenuLink className="w-3/5">
+      <NavigationMenuLink className="w-6/12">
         <Input placeholder='Search' />
       </NavigationMenuLink>
 
@@ -106,7 +104,7 @@ const LargeNavbar = () => {
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link className={linkClass} to="/history">
-              <MdAccessTime size={"12"} />
+              <History size={"12"} />
               History
             </Link>
           </NavigationMenuLink>
@@ -114,12 +112,23 @@ const LargeNavbar = () => {
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link className={linkClass} to="/watchlist">
-              <FaHeart size={"12"} />
-              WatchList
+              <Heart size={"12"} />
+              Favourites
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link className={linkClass} to="/watchlist">
+              <Settings size={"12"} />
+              Settings
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+        </NavigationMenuItem>
         <UserMenuItem baseClasses={baseClasses} />
+        <MoreNavItem />
       </NavigationMenuList>
 
 
@@ -136,21 +145,22 @@ const MobileNavbar = () => {
   return (
 
     <div className="md:hidden flex justify-between text-text text-sm gap-3">
-        <NavigationMenuList className="w-[90vw] px-4">
-          <NavigationMenu >
-            <NavigationMenuLink asChild>
-              <Link to="/" className="flex items-center justify-center">
-                <img
-                  src={logo}
-                  alt="logo"
-                  className="w-full h-12 object-contain scale-[0.5]"
-                />
-              </Link>
-            </NavigationMenuLink>
-            <Input placeholder='Search' />
-          </NavigationMenu>
-          <UserMenuItem baseClasses={baseClasses} />
-        </NavigationMenuList>
+      <NavigationMenuList className="w-[90vw]">
+        <NavigationMenu >
+          <NavigationMenuLink asChild>
+            <Link to="/" className="flex items-center justify-center">
+              <img
+                src={logo}
+                alt="logo"
+                className="w-full h-12 object-contain scale-[0.5]"
+              />
+            </Link>
+          </NavigationMenuLink>
+          <Input placeholder='Search' />
+        </NavigationMenu>
+        <UserMenuItem baseClasses={baseClasses} />
+        <MoreNavItem />
+      </NavigationMenuList>
 
 
     </div>

@@ -1,28 +1,22 @@
 // import { useMutation, UseMutationResult, useQuery } from '@tanstack/react-query';
+import { getUser, type ResponseUser, type User } from '@/api';
+import { useQuery } from '@tanstack/react-query';
 import React, {
   createContext,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 // import { getErrorMessage, getUser, login, logout, toastConfig } from '../api';
 import { toast } from 'sonner';
 
 // Type definitions
-interface ResponseUser {
-  image?: string,
-  username: string,
-  name?: string
-}
 
-type User = ResponseUser & {
-  image: string
-
-}
 export type Theme = "dark-high-contrast" | "high-contrast" | "dark" | "default"
 export interface AuthContextType {
   token: string | null;
   isAuthenticated: boolean;
-  user: User | null;
+  user?: User;
   // loginMutation: UseMutationResult<any, Error, LoginDataT, unknown>
   // logout: () => void;
   localLogout: () => void;
@@ -49,13 +43,18 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [token, setToken] = useState<string | null>(() => getTokenFromCookies());
+  const token = getTokenFromCookies()
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!token);
-
-  let responseUser: ResponseUser = { username: "jona" }
-  const image = responseUser?.image
-    ? `${import.meta.env.VITE_BACKEND_URL}${responseUser.image}`
-    : `https://ui-avatars.com/api/?name=${responseUser?.name || responseUser?.username}&rounded=true&background=14759f&size=35&color=fff`;
+  const [user, setUser] = useState<User | undefined>(undefined)
+  const userQuery = useQuery({
+    queryKey: ["userQuery", token],
+    queryFn: getUser,
+    enabled: !!token,
+    retry: false
+  })
+  const responseUser = userQuery.data
+  const image = responseUser?.image ??
+    `https://ui-avatars.com/api/?name=${responseUser?.name || responseUser?.username}&rounded=true&background=14759f&size=35&color=fff`;
 
   // const isAuthenticated = !!responseUser
   // const loginMutation = useMutation(
@@ -87,18 +86,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // )
 
 
+  useEffect(() => {
+    
+    setUser(responseUser ? { ...responseUser, image } : undefined)
+  
+  }, [userQuery.data]);
 
 
-  // const userQuery = useQuery({
-  //   queryKey: ["userQuery", token],
-  //   queryFn: getUser,
-  //   enabled: !!token,
-  //   retry: false
-  // })
 
   const localLogout = () => {
     clearTokenCookie();
-    setToken(null);
+    setTokenCookie("");
     setIsAuthenticated(false);
     toast.info("Logged Out")
 
@@ -113,11 +111,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // }, [userQuery.error, userQuery.isSuccess]);
 
+  console.log(responseUser);
+
+
   const value: AuthContextType = {
     token,
     isAuthenticated,
-    user: null,
-    // user: {...responseUser, image},
+    user,
     // user: userQuery.data,
     // loginMutation: loginMutation,
     // logout: () => logoutMutation.mutate(),

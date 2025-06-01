@@ -17,6 +17,8 @@ import { Route as AppWatchlistImport } from './routes/_app/watchlist'
 import { Route as AppProfileImport } from './routes/_app/profile'
 import { Route as AppMoviesImport } from './routes/_app/movies'
 import { Route as AppHistoryImport } from './routes/_app/history'
+import { Route as AppContactImport } from './routes/_app/contact'
+import { Route as AppAboutImport } from './routes/_app/about'
 
 // Create/Update Routes
 
@@ -55,6 +57,18 @@ const AppHistoryRoute = AppHistoryImport.update({
   getParentRoute: () => AppRouteRoute,
 } as any)
 
+const AppContactRoute = AppContactImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppAboutRoute = AppAboutImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -65,6 +79,20 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRoute
+    }
+    '/_app/about': {
+      id: '/_app/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AppAboutImport
+      parentRoute: typeof AppRouteImport
+    }
+    '/_app/contact': {
+      id: '/_app/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof AppContactImport
+      parentRoute: typeof AppRouteImport
     }
     '/_app/history': {
       id: '/_app/history'
@@ -107,6 +135,8 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AppRouteRouteChildren {
+  AppAboutRoute: typeof AppAboutRoute
+  AppContactRoute: typeof AppContactRoute
   AppHistoryRoute: typeof AppHistoryRoute
   AppMoviesRoute: typeof AppMoviesRoute
   AppProfileRoute: typeof AppProfileRoute
@@ -115,6 +145,8 @@ interface AppRouteRouteChildren {
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppAboutRoute: AppAboutRoute,
+  AppContactRoute: AppContactRoute,
   AppHistoryRoute: AppHistoryRoute,
   AppMoviesRoute: AppMoviesRoute,
   AppProfileRoute: AppProfileRoute,
@@ -128,6 +160,8 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '': typeof AppRouteRouteWithChildren
+  '/about': typeof AppAboutRoute
+  '/contact': typeof AppContactRoute
   '/history': typeof AppHistoryRoute
   '/movies': typeof AppMoviesRoute
   '/profile': typeof AppProfileRoute
@@ -136,6 +170,8 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/about': typeof AppAboutRoute
+  '/contact': typeof AppContactRoute
   '/history': typeof AppHistoryRoute
   '/movies': typeof AppMoviesRoute
   '/profile': typeof AppProfileRoute
@@ -146,6 +182,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_app': typeof AppRouteRouteWithChildren
+  '/_app/about': typeof AppAboutRoute
+  '/_app/contact': typeof AppContactRoute
   '/_app/history': typeof AppHistoryRoute
   '/_app/movies': typeof AppMoviesRoute
   '/_app/profile': typeof AppProfileRoute
@@ -155,12 +193,29 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/history' | '/movies' | '/profile' | '/watchlist' | '/'
+  fullPaths:
+    | ''
+    | '/about'
+    | '/contact'
+    | '/history'
+    | '/movies'
+    | '/profile'
+    | '/watchlist'
+    | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/history' | '/movies' | '/profile' | '/watchlist' | '/'
+  to:
+    | '/about'
+    | '/contact'
+    | '/history'
+    | '/movies'
+    | '/profile'
+    | '/watchlist'
+    | '/'
   id:
     | '__root__'
     | '/_app'
+    | '/_app/about'
+    | '/_app/contact'
     | '/_app/history'
     | '/_app/movies'
     | '/_app/profile'
@@ -193,12 +248,22 @@ export const routeTree = rootRoute
     "/_app": {
       "filePath": "_app/route.tsx",
       "children": [
+        "/_app/about",
+        "/_app/contact",
         "/_app/history",
         "/_app/movies",
         "/_app/profile",
         "/_app/watchlist",
         "/_app/"
       ]
+    },
+    "/_app/about": {
+      "filePath": "_app/about.tsx",
+      "parent": "/_app"
+    },
+    "/_app/contact": {
+      "filePath": "_app/contact.tsx",
+      "parent": "/_app"
     },
     "/_app/history": {
       "filePath": "_app/history.tsx",
