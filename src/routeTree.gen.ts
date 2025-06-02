@@ -12,25 +12,20 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app/route'
-import { Route as AppIndexImport } from './routes/_app/index'
 import { Route as AppWatchlistImport } from './routes/_app/watchlist'
 import { Route as AppProfileImport } from './routes/_app/profile'
 import { Route as AppMoviesImport } from './routes/_app/movies'
 import { Route as AppHistoryImport } from './routes/_app/history'
 import { Route as AppContactImport } from './routes/_app/contact'
 import { Route as AppAboutImport } from './routes/_app/about'
+import { Route as AppIndexRouteImport } from './routes/_app/index/route'
+import { Route as AppWatchIdImport } from './routes/_app/watch/$id'
 
 // Create/Update Routes
 
 const AppRouteRoute = AppRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRoute,
-} as any)
-
-const AppIndexRoute = AppIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppRouteRoute,
 } as any)
 
 const AppWatchlistRoute = AppWatchlistImport.update({
@@ -69,6 +64,18 @@ const AppAboutRoute = AppAboutImport.update({
   getParentRoute: () => AppRouteRoute,
 } as any)
 
+const AppIndexRouteRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppWatchIdRoute = AppWatchIdImport.update({
+  id: '/watch/$id',
+  path: '/watch/$id',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -79,6 +86,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRoute
+    }
+    '/_app/': {
+      id: '/_app/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRouteImport
     }
     '/_app/about': {
       id: '/_app/about'
@@ -122,11 +136,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppWatchlistImport
       parentRoute: typeof AppRouteImport
     }
-    '/_app/': {
-      id: '/_app/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AppIndexImport
+    '/_app/watch/$id': {
+      id: '/_app/watch/$id'
+      path: '/watch/$id'
+      fullPath: '/watch/$id'
+      preLoaderRoute: typeof AppWatchIdImport
       parentRoute: typeof AppRouteImport
     }
   }
@@ -135,23 +149,25 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AppRouteRouteChildren {
+  AppIndexRouteRoute: typeof AppIndexRouteRoute
   AppAboutRoute: typeof AppAboutRoute
   AppContactRoute: typeof AppContactRoute
   AppHistoryRoute: typeof AppHistoryRoute
   AppMoviesRoute: typeof AppMoviesRoute
   AppProfileRoute: typeof AppProfileRoute
   AppWatchlistRoute: typeof AppWatchlistRoute
-  AppIndexRoute: typeof AppIndexRoute
+  AppWatchIdRoute: typeof AppWatchIdRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppIndexRouteRoute: AppIndexRouteRoute,
   AppAboutRoute: AppAboutRoute,
   AppContactRoute: AppContactRoute,
   AppHistoryRoute: AppHistoryRoute,
   AppMoviesRoute: AppMoviesRoute,
   AppProfileRoute: AppProfileRoute,
   AppWatchlistRoute: AppWatchlistRoute,
-  AppIndexRoute: AppIndexRoute,
+  AppWatchIdRoute: AppWatchIdRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
@@ -160,67 +176,73 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '': typeof AppRouteRouteWithChildren
+  '/': typeof AppIndexRouteRoute
   '/about': typeof AppAboutRoute
   '/contact': typeof AppContactRoute
   '/history': typeof AppHistoryRoute
   '/movies': typeof AppMoviesRoute
   '/profile': typeof AppProfileRoute
   '/watchlist': typeof AppWatchlistRoute
-  '/': typeof AppIndexRoute
+  '/watch/$id': typeof AppWatchIdRoute
 }
 
 export interface FileRoutesByTo {
+  '/': typeof AppIndexRouteRoute
   '/about': typeof AppAboutRoute
   '/contact': typeof AppContactRoute
   '/history': typeof AppHistoryRoute
   '/movies': typeof AppMoviesRoute
   '/profile': typeof AppProfileRoute
   '/watchlist': typeof AppWatchlistRoute
-  '/': typeof AppIndexRoute
+  '/watch/$id': typeof AppWatchIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_app': typeof AppRouteRouteWithChildren
+  '/_app/': typeof AppIndexRouteRoute
   '/_app/about': typeof AppAboutRoute
   '/_app/contact': typeof AppContactRoute
   '/_app/history': typeof AppHistoryRoute
   '/_app/movies': typeof AppMoviesRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/watchlist': typeof AppWatchlistRoute
-  '/_app/': typeof AppIndexRoute
+  '/_app/watch/$id': typeof AppWatchIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
+    | '/'
     | '/about'
     | '/contact'
     | '/history'
     | '/movies'
     | '/profile'
     | '/watchlist'
-    | '/'
+    | '/watch/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/about'
     | '/contact'
     | '/history'
     | '/movies'
     | '/profile'
     | '/watchlist'
-    | '/'
+    | '/watch/$id'
   id:
     | '__root__'
     | '/_app'
+    | '/_app/'
     | '/_app/about'
     | '/_app/contact'
     | '/_app/history'
     | '/_app/movies'
     | '/_app/profile'
     | '/_app/watchlist'
-    | '/_app/'
+    | '/_app/watch/$id'
   fileRoutesById: FileRoutesById
 }
 
@@ -248,14 +270,19 @@ export const routeTree = rootRoute
     "/_app": {
       "filePath": "_app/route.tsx",
       "children": [
+        "/_app/",
         "/_app/about",
         "/_app/contact",
         "/_app/history",
         "/_app/movies",
         "/_app/profile",
         "/_app/watchlist",
-        "/_app/"
+        "/_app/watch/$id"
       ]
+    },
+    "/_app/": {
+      "filePath": "_app/index/route.tsx",
+      "parent": "/_app"
     },
     "/_app/about": {
       "filePath": "_app/about.tsx",
@@ -281,8 +308,8 @@ export const routeTree = rootRoute
       "filePath": "_app/watchlist.tsx",
       "parent": "/_app"
     },
-    "/_app/": {
-      "filePath": "_app/index.tsx",
+    "/_app/watch/$id": {
+      "filePath": "_app/watch/$id.tsx",
       "parent": "/_app"
     }
   }

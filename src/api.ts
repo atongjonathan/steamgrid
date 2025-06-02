@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { type AxiosRequestConfig } from "axios"
 import { getTokenFromCookies } from "./components/context/AuthContext"
 
 
@@ -66,6 +66,10 @@ export type TrendingResponse = Pagination & {
     results: BannerMovie[];
 };
 
+export type MoviesResponse = Pagination & {
+    results: MinMovie[];
+};
+
 
 
 export type UserUpdatePayload = Partial<Record<"plan_ids" | "hold_ids" | "dropped_ids" | "finished_ids", number[]>>
@@ -121,8 +125,7 @@ export async function signUp(data: {
     username: string;
     password: string;
 }) {
-    const signUpUrl = `${API_BASE}/create-user`;
-    return (await api.post(signUpUrl, data)).data;
+    return (await api.post("/create-user", data)).data;
 
 }
 
@@ -130,22 +133,23 @@ export async function login(data: {
     username: string;
     password: string;
 }) {
-    const url = `${API_BASE}/token/`;
-    return (await api.post(url, data)).data as { access: string, refresh: string };
+    return (await api.post("/token/", data)).data as { access: string, refresh: string };
 
 }
 
 export async function getUser() {
-    const url = `${API_BASE}/users/me/`;
-    return (await api.get(url)).data as ResponseUser
+    return (await api.get("/users/me/")).data as ResponseUser
 }
 
 export async function getTrending() {
-    const url = `${API_BASE}/trending`;
-    return (await api.get(url)).data as TrendingResponse
+    return (await api.get("/trending")).data as TrendingResponse
 }
 
 export const updateUser = async (data: UserUpdatePayload & { image?: string }) => {
     delete data.image
     return (await api.put(`/users/me/`, data)).data as ResponseUser
+};
+
+export const getMovies = async (config: AxiosRequestConfig) => {
+    return (await api.get(`/movies`, config)).data as MoviesResponse
 };
