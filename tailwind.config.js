@@ -7,6 +7,10 @@ export default {
   ],
   theme: {
   	extend: {
+		fontFamily: {
+			sans: ['Poppins', 'sans-serif'],
+			heading: ['Montserrat', 'sans-serif'],
+		  },
   		colors: {
   			subMain: '#14759f',
   			oldMain: '#f20000',

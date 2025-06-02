@@ -25,7 +25,7 @@ import { useMutation } from "@tanstack/react-query"
 import { getErrorMessage, login } from "@/api"
 import type { AxiosError } from "axios"
 import { Loader2Icon } from "lucide-react"
-import { setTokenCookie } from "../context/AuthContext"
+import { setTokenCookie, useAuth } from "../context/AuthContext"
 
 
 type LoginProps = {
@@ -38,6 +38,7 @@ type LoginProps = {
 }
 export default function Login({ loginClass, loginProps }: LoginProps) {
     const { isLoginOpen, setisLoginOpen, setIsSignUpOpen } = loginProps
+    const { fetchUser } = useAuth()
 
     const FormSchema = z.object({
         username: z.string().min(2, {
@@ -61,10 +62,11 @@ export default function Login({ loginClass, loginProps }: LoginProps) {
         {
             mutationKey: ["login"],
             mutationFn: login,
-            onSuccess: (data) => {
+            onSuccess: async (data) => {
                 setTokenCookie(data.access)
                 setisLoginOpen(false)
                 toast.success("Logged in")
+                await fetchUser()
             },
             onError: (err: AxiosError) => {
                 toast.error(getErrorMessage(err));

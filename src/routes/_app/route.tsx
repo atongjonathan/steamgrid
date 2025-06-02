@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
-import Navbar from './-components/Navbar'
-import MobileFooterNav from './-components/MobileFooterNav'
+import Navbar from './-components/Navbar/Navbar'
+import MobileFooterNav from './-components/Navbar/MobileFooterNav'
 
 export const Route = createFileRoute('/_app')({
   component: RouteComponent,
