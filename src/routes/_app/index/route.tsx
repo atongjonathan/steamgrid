@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import HomeBanner from './-components/Banner/Banner'
 import SgSlider from './-components/SGSlider';
 import { Banner, BannerClose, BannerIcon, BannerTitle, BannerAction } from '@/components/ui/shadcn-io/banner';
