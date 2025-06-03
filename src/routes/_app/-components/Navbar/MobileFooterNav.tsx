@@ -25,7 +25,7 @@ const Hover =
 
 const MobileFooterNav = () => {
   return (
-    <footer className="md:hidden sm:flex fixed z-50 bottom-0 w-full p-2">
+    <footer className="md:hidden sm:flex fixed z-50 bottom-0 w-full">
       <div className="rounded-md p-1 bg-gradient-to-t from-dry from-40% to-100% flex justify-around items-center w-full">
         {navItems.map((item, idx) => (
           <Button

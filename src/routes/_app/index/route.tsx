@@ -60,12 +60,16 @@ function RouteComponent() {
   }
   return <>
     <Banner />
-    <SgSlider params={RecentlyAdded} title='Recently Added' />
-    <SgSlider params={sortedByDate} title='Latest Release' />
-    <SgSlider params={actionMovies} title='Action' />
-    <SgSlider params={romance} title='Romance' />
-    <SgSlider params={horror} title='Horror' />
-    <SgSlider params={animation} title='Animation' />
-    <SgSlider params={documentary} title='Documentary' />
-    <SgSlider params={sortedByRatingStar} title='Top Rated' />  </>
+    <div className='pl-6 pr-2'>
+      <SgSlider params={RecentlyAdded} title='Recently Added' />
+      <SgSlider params={sortedByDate} title='Latest Release' />
+      <SgSlider params={actionMovies} title='Action' />
+      <SgSlider params={romance} title='Romance' />
+      <SgSlider params={horror} title='Horror' />
+      <SgSlider params={animation} title='Animation' />
+      <SgSlider params={documentary} title='Documentary' />
+      <SgSlider params={sortedByRatingStar} title='Top Rated' />
+    </div>
+
+  </>
 }

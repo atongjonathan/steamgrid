@@ -73,7 +73,7 @@ const SgSlider = ({ params, title }: { params: Record<string, any>, title: strin
 
     return (
         <LazyLoadComponent visibleByDefault={visibleTitles.includes(title)} >
-            <div className="lg:mt-8 mt-5 px-10">
+            <div className="lg:mt-8 mt-5">
                 <div className="w-full flex justify-between">
                     <div className="flex sm:gap-3 gap-2 items-center truncate">
                         {
@@ -86,7 +86,7 @@ const SgSlider = ({ params, title }: { params: Record<string, any>, title: strin
                     {
                         isSuccess && <div className="px-2 flex justify-center gap-2">
                             <Button
-                                className={`transition duration-100 ease-in text-sm rounded-lg w-7 h-7 flex-colo text-white ${startDisabled ? "bg-dry" : "bg-subMain active:bg-dry"
+                                className={`transition duration-100 ease-in text-sm rounded-lg w-7 h-7 flex-colo text-white "
                                     }`}
                                 ref={(node) => setPrevEl(node)}
                                 disabled={startDisabled}
@@ -94,8 +94,7 @@ const SgSlider = ({ params, title }: { params: Record<string, any>, title: strin
                                 <FaArrowLeft />
                             </Button>
                             <Button
-                                className={`transition duration-100 ease-in text-sm rounded-lg w-7 h-7 flex-colo text-white ${endDisabled ? "bg-dry" : "bg-subMain active:bg-dry"
-                                    }`}
+                                className={`transition duration-100 ease-in text-sm rounded-lg w-7 h-7 flex-colo text-white`}
                                 ref={(node) => setNextEl(node)}
                                 disabled={endDisabled}
                             >
