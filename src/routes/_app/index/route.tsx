@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import HomeBanner from '../-components/Banner/Banner'
+import HomeBanner from './-components/Banner/Banner'
 import SgSlider from './-components/SGSlider';
 import { Banner, BannerClose, BannerIcon, BannerTitle, BannerAction } from '@/components/ui/shadcn-io/banner';
 import { CircleAlert } from 'lucide-react';
@@ -61,15 +61,13 @@ function RouteComponent() {
 
   }
   return <>
-    <Banner>
+    <Banner className='border border-white rounded mx-1'>
       <BannerIcon icon={CircleAlert} />
-      <BannerTitle>You are currently using the new improved UI experience launching soon.</BannerTitle>
+      <BannerTitle>You are currently using the new improved UI experience.</BannerTitle>
       <BannerAction className='bg-main border border-white hover:bg-main/70 hover:text-white' asChild>
         <a rel='noopener' href='https://streamgrid.stream' target='_blank'>
-          Go to the previous
-        </a>
-     
-
+          Go back
+        </a>    
       </BannerAction>
       <BannerClose />
     </Banner>
