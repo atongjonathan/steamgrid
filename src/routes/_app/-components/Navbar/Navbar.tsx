@@ -48,7 +48,9 @@ export const UserMenuItem: FC<{ baseClasses: string }> = ({ baseClasses }) => {
             <Link to="/profile">
               <Avatar title={user.username}>
                 <AvatarImage src={user.image} alt={user.username} />
-                <AvatarFallback className={clsx(signUpClass, 'rounded-full')}>{user.username.slice(0, 3)}</AvatarFallback>
+                <AvatarFallback>
+                  {user?.username?.slice(0, 2)?.toUpperCase() || "U"}
+                </AvatarFallback>
               </Avatar>
             </Link>
           </NavigationMenuLink>
@@ -81,6 +83,13 @@ const LargeNavbar = () => {
     baseClasses
   );
 
+  const navItems = [
+    { to: "/history", label: "History", icon: <History size="12" /> },
+    { to: "/watchlist", label: "Favourites", icon: <Heart size="12" /> },
+    { to: "/settings", label: "Settings", icon: <Settings size="12" /> },
+  ];
+
+
   return (
     <div className="hidden md:flex px-7 py-3 justify-between items-center min-h-7 w-full">
       {/* Logo */}
@@ -101,32 +110,16 @@ const LargeNavbar = () => {
 
       {/* Menus for larger screens */}
       <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild>
-            <Link className={linkClass} to="/history">
-              <History size={"12"} />
-              History
-            </Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild>
-            <Link className={linkClass} to="/watchlist">
-              <Heart size={"12"} />
-              Favourites
-            </Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild>
-            <Link className={linkClass} to="/watchlist">
-              <Settings size={"12"} />
-              Settings
-            </Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-        </NavigationMenuItem>
+        {navItems.map(({ to, label, icon }) => (
+          <NavigationMenuItem key={to}>
+            <NavigationMenuLink asChild>
+              <Link className={linkClass} to={to}>
+                {icon}
+                {label}
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        ))}
         <UserMenuItem baseClasses={baseClasses} />
         <MoreNavItem />
       </NavigationMenuList>
