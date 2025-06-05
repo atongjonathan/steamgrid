@@ -14,7 +14,7 @@ import SignUp from "@/components/modals/SignUp";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import MoreNavItem from "./MoreNavItem";
-import { Heart, History, Settings } from "lucide-react";
+import { Bookmark, History, Settings } from "lucide-react";
 
 export const UserMenuItem: FC<{ baseClasses: string }> = ({ baseClasses }) => {
 
@@ -75,6 +75,11 @@ export const UserMenuItem: FC<{ baseClasses: string }> = ({ baseClasses }) => {
     </>
   )
 }
+export const navItems = [
+  { to: "/history", label: "History", icon: History },
+  { to: "/watchlist", label: "Saved", icon: Bookmark },
+  { to: "/settings", label: "Settings", icon: Settings },
+];
 
 const LargeNavbar = () => {
   const baseClasses = "border py-2 px-3 rounded-lg transitions flex gap-2 items-center [&.active]:text-subMain hover:[&.active]:bg-main";
@@ -83,11 +88,7 @@ const LargeNavbar = () => {
     baseClasses
   );
 
-  const navItems = [
-    { to: "/history", label: "History", icon: <History size="12" /> },
-    { to: "/watchlist", label: "Favourites", icon: <Heart size="12" /> },
-    { to: "/settings", label: "Settings", icon: <Settings size="12" /> },
-  ];
+
 
 
   return (
@@ -110,11 +111,11 @@ const LargeNavbar = () => {
 
       {/* Menus for larger screens */}
       <NavigationMenuList>
-        {navItems.map(({ to, label, icon }) => (
+        {navItems.map(({ to, label, icon: Icon }) => (
           <NavigationMenuItem key={to}>
             <NavigationMenuLink asChild>
               <Link className={linkClass} to={to}>
-                {icon}
+                <Icon size={12} />
                 {label}
               </Link>
             </NavigationMenuLink>

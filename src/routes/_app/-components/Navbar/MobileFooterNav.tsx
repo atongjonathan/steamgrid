@@ -1,24 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Link } from "@tanstack/react-router"
-import { Heart, History, Settings } from "lucide-react"
+import { navItems } from "./Navbar"
 
-const navItems = [
-  {
-    name: "Liked",
-    icon: Heart,
-    to: "/",
-  },
-  {
-    name: "History",
-    icon: History,
-    to: "/watchlist", 
-  },
-  {
-    name: "Settings",
-    icon: Settings,
-    to: "/settings",
-  },
-]
 
 const Hover =
   "transitions text-2xl flex-colo hover:bg-white hover:text-main text-white rounded-md px-4 py-3 h-max [&.active]:text-subMain "
@@ -30,14 +13,14 @@ const MobileFooterNav = () => {
         {navItems.map((item, idx) => (
           <Button
             key={idx}
-            onClick={() => console.log(`${item.name} clicked`)}
+            onClick={() => console.log(`${item.label} clicked`)}
             asChild
             variant="ghost"
             className={Hover}
           >
             <Link to={item.to} className={Hover}>
               <item.icon size={16} />
-              <p className="text-sm">{item.name}</p>
+              <p className="text-sm">{item.label}</p>
             </Link>
           </Button>
         ))}
