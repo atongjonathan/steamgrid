@@ -9,80 +9,71 @@ export const Route = createFileRoute('/_app/')({
 })
 
 function RouteComponent() {
-  document.title = `StreamGrid | Home`;
+  document.title = `StreamGrid | Home`
 
-  let limit = 10
+  const limit = 10
   const shuffle = true
 
-  const sortedByDate = {
-    ordering: "-releaseDate",
-    limit
+  const sliders = [
+    {
+      title: 'Recently Added',
+      params: { ordering: '-created', limit },
+    },
+    {
+      title: 'Latest Release',
+      params: { ordering: '-releaseDate', limit },
+    },
+    {
+      title: 'Action',
+      params: { genre: 'Action', limit, shuffle },
+    },
+    {
+      title: 'Romance',
+      params: { genre: 'Romance', limit, shuffle },
+    },
+    {
+      title: 'Horror',
+      params: { genre: 'Horror', limit, shuffle },
+    },
+    {
+      title: 'Animation',
+      params: { genre: 'Animation', limit, shuffle },
+    },
+    {
+      title: 'Documentary',
+      params: { genre: 'Documentary', limit, shuffle },
+    },
+    {
+      title: 'Top Rated',
+      params: { ordering: '-rating_star', limit },
+    },
+  ]
 
-  }
-  const RecentlyAdded = {
-    ordering: "-created",
-    limit
+  return (
+    <>
+      <Banner className="border border-white rounded mx-1">
+        <BannerIcon icon={CircleAlert} />
+        <BannerTitle>
+          You are currently using the new improved UI experience.
+        </BannerTitle>
+        <BannerAction
+          className="bg-main border border-white hover:bg-main/70 hover:text-white"
+          asChild
+        >
+          <a rel="noopener" href="https://streamgrid.stream" target="_blank">
+            Go back
+          </a>
+        </BannerAction>
+        <BannerClose />
+      </Banner>
 
-  }
+      <HomeBanner />
 
-  const sortedByRatingStar = {
-    ordering: "-rating_star",
-    limit
-  }
-
-  const actionMovies = {
-    genre: "Action",
-    limit,
-    shuffle
-
-  }
-  const animation = {
-    genre: "Animation",
-    limit,
-    shuffle
-
-  }
-  const horror = {
-    genre: "Horror",
-    limit,
-    shuffle
-
-  }
-  const documentary = {
-    genre: "Documentary",
-    limit,
-    shuffle
-
-  }
-  const romance = {
-    genre: "Romance",
-    limit,
-    shuffle
-
-  }
-  return <>
-    <Banner className='border border-white rounded mx-1'>
-      <BannerIcon icon={CircleAlert} />
-      <BannerTitle>You are currently using the new improved UI experience.</BannerTitle>
-      <BannerAction className='bg-main border border-white hover:bg-main/70 hover:text-white' asChild>
-        <a rel='noopener' href='https://streamgrid.stream' target='_blank'>
-          Go back
-        </a>    
-      </BannerAction>
-      <BannerClose />
-    </Banner>
-    <HomeBanner />
-
-    <div className='pl-6 pr-2'>
-      <SgSlider params={RecentlyAdded} title='Recently Added' />
-      <SgSlider params={sortedByDate} title='Latest Release' />
-      <SgSlider params={actionMovies} title='Action' />
-      <SgSlider params={romance} title='Romance' />
-      <SgSlider params={horror} title='Horror' />
-      <SgSlider params={animation} title='Animation' />
-      <SgSlider params={documentary} title='Documentary' />
-      <SgSlider params={sortedByRatingStar} title='Top Rated' />
-    </div>
-
-  </>
+      <div className="pl-6 pr-2">
+        {sliders.map(({ title, params }) => (
+          <SgSlider key={title} title={title} params={params} />
+        ))}
+      </div>
+    </>
+  )
 }
