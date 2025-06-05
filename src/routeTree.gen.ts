@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app/route'
 import { Route as AppWatchlistImport } from './routes/_app/watchlist'
+import { Route as AppSettingsImport } from './routes/_app/settings'
 import { Route as AppProfileImport } from './routes/_app/profile'
 import { Route as AppMoviesImport } from './routes/_app/movies'
 import { Route as AppHistoryImport } from './routes/_app/history'
@@ -31,6 +32,12 @@ const AppRouteRoute = AppRouteImport.update({
 const AppWatchlistRoute = AppWatchlistImport.update({
   id: '/watchlist',
   path: '/watchlist',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppSettingsRoute = AppSettingsImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AppRouteRoute,
 } as any)
 
@@ -129,6 +136,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProfileImport
       parentRoute: typeof AppRouteImport
     }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsImport
+      parentRoute: typeof AppRouteImport
+    }
     '/_app/watchlist': {
       id: '/_app/watchlist'
       path: '/watchlist'
@@ -155,6 +169,7 @@ interface AppRouteRouteChildren {
   AppHistoryRoute: typeof AppHistoryRoute
   AppMoviesRoute: typeof AppMoviesRoute
   AppProfileRoute: typeof AppProfileRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppWatchlistRoute: typeof AppWatchlistRoute
   AppWatchIdRoute: typeof AppWatchIdRoute
 }
@@ -166,6 +181,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppHistoryRoute: AppHistoryRoute,
   AppMoviesRoute: AppMoviesRoute,
   AppProfileRoute: AppProfileRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppWatchlistRoute: AppWatchlistRoute,
   AppWatchIdRoute: AppWatchIdRoute,
 }
@@ -182,6 +198,7 @@ export interface FileRoutesByFullPath {
   '/history': typeof AppHistoryRoute
   '/movies': typeof AppMoviesRoute
   '/profile': typeof AppProfileRoute
+  '/settings': typeof AppSettingsRoute
   '/watchlist': typeof AppWatchlistRoute
   '/watch/$id': typeof AppWatchIdRoute
 }
@@ -193,6 +210,7 @@ export interface FileRoutesByTo {
   '/history': typeof AppHistoryRoute
   '/movies': typeof AppMoviesRoute
   '/profile': typeof AppProfileRoute
+  '/settings': typeof AppSettingsRoute
   '/watchlist': typeof AppWatchlistRoute
   '/watch/$id': typeof AppWatchIdRoute
 }
@@ -206,6 +224,7 @@ export interface FileRoutesById {
   '/_app/history': typeof AppHistoryRoute
   '/_app/movies': typeof AppMoviesRoute
   '/_app/profile': typeof AppProfileRoute
+  '/_app/settings': typeof AppSettingsRoute
   '/_app/watchlist': typeof AppWatchlistRoute
   '/_app/watch/$id': typeof AppWatchIdRoute
 }
@@ -220,6 +239,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/movies'
     | '/profile'
+    | '/settings'
     | '/watchlist'
     | '/watch/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -230,6 +250,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/movies'
     | '/profile'
+    | '/settings'
     | '/watchlist'
     | '/watch/$id'
   id:
@@ -241,6 +262,7 @@ export interface FileRouteTypes {
     | '/_app/history'
     | '/_app/movies'
     | '/_app/profile'
+    | '/_app/settings'
     | '/_app/watchlist'
     | '/_app/watch/$id'
   fileRoutesById: FileRoutesById
@@ -276,6 +298,7 @@ export const routeTree = rootRoute
         "/_app/history",
         "/_app/movies",
         "/_app/profile",
+        "/_app/settings",
         "/_app/watchlist",
         "/_app/watch/$id"
       ]
@@ -302,6 +325,10 @@ export const routeTree = rootRoute
     },
     "/_app/profile": {
       "filePath": "_app/profile.tsx",
+      "parent": "/_app"
+    },
+    "/_app/settings": {
+      "filePath": "_app/settings.tsx",
       "parent": "/_app"
     },
     "/_app/watchlist": {
