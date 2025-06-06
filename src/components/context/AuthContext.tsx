@@ -1,9 +1,10 @@
 // import { useMutation, UseMutationResult, useQuery } from '@tanstack/react-query';
-import { getUser, type User } from '@/api';
+import { getNewToken, getUser, type User } from '@/api';
 import { useQuery } from '@tanstack/react-query';
 import React, {
   createContext,
-  useContext
+  useContext,
+  useEffect
 } from 'react';
 // import { getErrorMessage, getUser, login, logout, toastConfig } from '../api';
 import { toast } from 'sonner';
@@ -33,13 +34,15 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const access = Cookies.get("access");
+  const refresh = Cookies.get("refresh");
+
   const decoded: { exp: number } = access ? jwtDecode(access) : { exp: 0 };
-  const isAuthenticated = dayjs.unix(decoded.exp).diff(dayjs()) < 0;
+  const isAuthenticated = dayjs.unix(decoded.exp).diff(dayjs()) > 0;
 
   const userQuery = useQuery({
     queryKey: ["userQuery", access],
     queryFn: getUser,
-    enabled: !!access,
+    enabled: isAuthenticated,
     retry: false,
   });
 
@@ -49,21 +52,49 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     responseUser?.image ??
     `https://ui-avatars.com/api/?name=${responseUser?.name || responseUser?.username}&rounded=true&background=14759f&size=35&color=fff`;
 
-  const user = responseUser
-    ? { ...responseUser, image }
-    : undefined;
+  const user = responseUser ? { ...responseUser, image } : undefined;
 
   const fetchUser = async () => {
     await userQuery.refetch();
   };
 
   const localLogout = () => {
-    Cookies.remove("access")
-    Cookies.remove("refresh")
+    Cookies.remove("access");
+    Cookies.remove("refresh");
     toast.info("Logged Out");
-    // Optional: clear React Query cache if needed
+    // Optionally clear query cache:
     // queryClient.removeQueries(['userQuery']);
   };
+
+  useEffect(() => {
+    if (!access || !refresh || !isAuthenticated) return;
+    
+
+    const interval = setInterval(async () => {
+      const currentAccess = Cookies.get("access");
+      const currentRefresh = Cookies.get("refresh");
+      
+      if (!currentAccess || !currentRefresh) return;
+
+      try {
+        const decoded: { exp: number } = jwtDecode(currentAccess);
+        const isExpiringSoon = dayjs.unix(decoded.exp).diff(dayjs()) < 60 * 1000;
+        
+
+        if (isExpiringSoon) {
+          const { access: newAccessToken, refresh: newRefreshToken } = await getNewToken(currentRefresh);
+          Cookies.set("access", newAccessToken);
+          Cookies.set("refresh", newRefreshToken);
+          await fetchUser();
+        }
+      } catch (err) {
+        console.error("Auto-refresh failed", err);
+        localLogout();
+      }
+    }, 30 * 1000); // Check every 30s
+
+    return () => clearInterval(interval);
+  }, [isAuthenticated]);
 
   const value: AuthContextType = {
     isAuthenticated,
@@ -74,6 +105,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
 
 
 export const useAuth = (): AuthContextType => {

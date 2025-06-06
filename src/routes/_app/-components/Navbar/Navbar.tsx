@@ -39,15 +39,15 @@ export const UserMenuItem: FC<{ baseClasses: string }> = ({ baseClasses }) => {
 
   );
 
-  const { user } = useAuth()
+  const { isAuthenticated, user } = useAuth()
   return (
     <>
       {
-        user ? <NavigationMenuItem>
+        isAuthenticated ? <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link to="/profile">
-              <Avatar title={user.username}>
-                <AvatarImage src={user.image} alt={user.username} />
+              <Avatar title={user?.username}>
+                <AvatarImage src={user?.image} alt={user?.username} />
                 <AvatarFallback>
                   {user?.username?.slice(0, 2)?.toUpperCase() || "U"}
                 </AvatarFallback>
