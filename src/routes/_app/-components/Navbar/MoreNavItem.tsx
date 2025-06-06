@@ -34,7 +34,7 @@ export default function MoreNavItem() {
     const adminLinks = [
         {
             name: 'Add',
-            link: '/addmovie',
+            link: '/add',
             icon: FaFilm,
         },
     ]

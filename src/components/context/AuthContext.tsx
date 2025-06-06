@@ -7,7 +7,6 @@ import React, {
   useEffect
 } from 'react';
 // import { getErrorMessage, getUser, login, logout, toastConfig } from '../api';
-import { toast } from 'sonner';
 import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs"
@@ -31,20 +30,31 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 interface AuthProviderProps {
   children: React.ReactNode;
 }
+export const getAuthState = (access: string): boolean => {
+
+  try {
+    const decoded: { exp: number } = jwtDecode(access);
+    return dayjs.unix(decoded.exp).diff(dayjs()) > 0;
+  } catch {
+    return false;
+  }
+};
+
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const access = Cookies.get("access");
   const refresh = Cookies.get("refresh");
 
-  const decoded: { exp: number } = access ? jwtDecode(access) : { exp: 0 };
-  const isAuthenticated = dayjs.unix(decoded.exp).diff(dayjs()) > 0;
+  const isAuthenticated = access ? getAuthState(access) : false
+
 
   const userQuery = useQuery({
     queryKey: ["userQuery", access],
     queryFn: getUser,
-    enabled: isAuthenticated,
+    enabled: access ? getAuthState(access) : false,
     retry: false,
   });
+
 
   const responseUser = userQuery.data;
 
@@ -61,25 +71,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const localLogout = () => {
     Cookies.remove("access");
     Cookies.remove("refresh");
-    toast.info("Logged Out");
     // Optionally clear query cache:
     // queryClient.removeQueries(['userQuery']);
   };
 
   useEffect(() => {
+    if (userQuery.isError || !isAuthenticated) {
+      localLogout()
+    }
+  }, [userQuery.isError, isAuthenticated]);
+
+  useEffect(() => {
     if (!access || !refresh || !isAuthenticated) return;
-    
+
 
     const interval = setInterval(async () => {
       const currentAccess = Cookies.get("access");
       const currentRefresh = Cookies.get("refresh");
-      
+
       if (!currentAccess || !currentRefresh) return;
 
       try {
         const decoded: { exp: number } = jwtDecode(currentAccess);
         const isExpiringSoon = dayjs.unix(decoded.exp).diff(dayjs()) < 60 * 1000;
-        
+
 
         if (isExpiringSoon) {
           const { access: newAccessToken, refresh: newRefreshToken } = await getNewToken(currentRefresh);

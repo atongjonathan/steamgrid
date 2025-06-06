@@ -1,5 +1,6 @@
 import axios, { type AxiosRequestConfig } from "axios"
 import Cookies from "js-cookie";
+import { getAuthState } from "./components/context/AuthContext";
 
 
 const API_BASE = import.meta.env.VITE_API_BASE
@@ -77,7 +78,7 @@ export type UserUpdatePayload = Partial<Record<"plan_ids" | "hold_ids" | "droppe
 api.interceptors.request.use(
     (config) => {
         const access = Cookies.get("access")
-        if (access && config.headers) {
+        if (access && config.headers && getAuthState(access)) {
             config.headers['Authorization'] = `Bearer ${access}`;
         }
         return config;

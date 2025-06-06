@@ -12,15 +12,17 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app/route'
-import { Route as AppWatchlistImport } from './routes/_app/watchlist'
-import { Route as AppSettingsImport } from './routes/_app/settings'
-import { Route as AppProfileImport } from './routes/_app/profile'
 import { Route as AppMoviesImport } from './routes/_app/movies'
-import { Route as AppHistoryImport } from './routes/_app/history'
 import { Route as AppContactImport } from './routes/_app/contact'
 import { Route as AppAboutImport } from './routes/_app/about'
+import { Route as AppIsAuthenticatedRouteImport } from './routes/_app/_isAuthenticated/route'
 import { Route as AppIndexRouteImport } from './routes/_app/index/route'
 import { Route as AppWatchIdImport } from './routes/_app/watch/$id'
+import { Route as AppIsAuthenticatedWatchlistImport } from './routes/_app/_isAuthenticated/watchlist'
+import { Route as AppIsAuthenticatedSettingsImport } from './routes/_app/_isAuthenticated/settings'
+import { Route as AppIsAuthenticatedProfileImport } from './routes/_app/_isAuthenticated/profile'
+import { Route as AppIsAuthenticatedHistoryImport } from './routes/_app/_isAuthenticated/history'
+import { Route as AppIsAuthenticatedIsAdminAddImport } from './routes/_app/_isAuthenticated/_isAdmin/add'
 
 // Create/Update Routes
 
@@ -29,33 +31,9 @@ const AppRouteRoute = AppRouteImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AppWatchlistRoute = AppWatchlistImport.update({
-  id: '/watchlist',
-  path: '/watchlist',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-
-const AppSettingsRoute = AppSettingsImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-
-const AppProfileRoute = AppProfileImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-
 const AppMoviesRoute = AppMoviesImport.update({
   id: '/movies',
   path: '/movies',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-
-const AppHistoryRoute = AppHistoryImport.update({
-  id: '/history',
-  path: '/history',
   getParentRoute: () => AppRouteRoute,
 } as any)
 
@@ -71,6 +49,11 @@ const AppAboutRoute = AppAboutImport.update({
   getParentRoute: () => AppRouteRoute,
 } as any)
 
+const AppIsAuthenticatedRouteRoute = AppIsAuthenticatedRouteImport.update({
+  id: '/_isAuthenticated',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
 const AppIndexRouteRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -82,6 +65,40 @@ const AppWatchIdRoute = AppWatchIdImport.update({
   path: '/watch/$id',
   getParentRoute: () => AppRouteRoute,
 } as any)
+
+const AppIsAuthenticatedWatchlistRoute =
+  AppIsAuthenticatedWatchlistImport.update({
+    id: '/watchlist',
+    path: '/watchlist',
+    getParentRoute: () => AppIsAuthenticatedRouteRoute,
+  } as any)
+
+const AppIsAuthenticatedSettingsRoute = AppIsAuthenticatedSettingsImport.update(
+  {
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AppIsAuthenticatedRouteRoute,
+  } as any,
+)
+
+const AppIsAuthenticatedProfileRoute = AppIsAuthenticatedProfileImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppIsAuthenticatedRouteRoute,
+} as any)
+
+const AppIsAuthenticatedHistoryRoute = AppIsAuthenticatedHistoryImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => AppIsAuthenticatedRouteRoute,
+} as any)
+
+const AppIsAuthenticatedIsAdminAddRoute =
+  AppIsAuthenticatedIsAdminAddImport.update({
+    id: '/_isAdmin/add',
+    path: '/add',
+    getParentRoute: () => AppIsAuthenticatedRouteRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -101,6 +118,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRouteImport
     }
+    '/_app/_isAuthenticated': {
+      id: '/_app/_isAuthenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AppIsAuthenticatedRouteImport
+      parentRoute: typeof AppRouteImport
+    }
     '/_app/about': {
       id: '/_app/about'
       path: '/about'
@@ -115,13 +139,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppContactImport
       parentRoute: typeof AppRouteImport
     }
-    '/_app/history': {
-      id: '/_app/history'
-      path: '/history'
-      fullPath: '/history'
-      preLoaderRoute: typeof AppHistoryImport
-      parentRoute: typeof AppRouteImport
-    }
     '/_app/movies': {
       id: '/_app/movies'
       path: '/movies'
@@ -129,26 +146,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMoviesImport
       parentRoute: typeof AppRouteImport
     }
-    '/_app/profile': {
-      id: '/_app/profile'
+    '/_app/_isAuthenticated/history': {
+      id: '/_app/_isAuthenticated/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof AppIsAuthenticatedHistoryImport
+      parentRoute: typeof AppIsAuthenticatedRouteImport
+    }
+    '/_app/_isAuthenticated/profile': {
+      id: '/_app/_isAuthenticated/profile'
       path: '/profile'
       fullPath: '/profile'
-      preLoaderRoute: typeof AppProfileImport
-      parentRoute: typeof AppRouteImport
+      preLoaderRoute: typeof AppIsAuthenticatedProfileImport
+      parentRoute: typeof AppIsAuthenticatedRouteImport
     }
-    '/_app/settings': {
-      id: '/_app/settings'
+    '/_app/_isAuthenticated/settings': {
+      id: '/_app/_isAuthenticated/settings'
       path: '/settings'
       fullPath: '/settings'
-      preLoaderRoute: typeof AppSettingsImport
-      parentRoute: typeof AppRouteImport
+      preLoaderRoute: typeof AppIsAuthenticatedSettingsImport
+      parentRoute: typeof AppIsAuthenticatedRouteImport
     }
-    '/_app/watchlist': {
-      id: '/_app/watchlist'
+    '/_app/_isAuthenticated/watchlist': {
+      id: '/_app/_isAuthenticated/watchlist'
       path: '/watchlist'
       fullPath: '/watchlist'
-      preLoaderRoute: typeof AppWatchlistImport
-      parentRoute: typeof AppRouteImport
+      preLoaderRoute: typeof AppIsAuthenticatedWatchlistImport
+      parentRoute: typeof AppIsAuthenticatedRouteImport
     }
     '/_app/watch/$id': {
       id: '/_app/watch/$id'
@@ -157,32 +181,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppWatchIdImport
       parentRoute: typeof AppRouteImport
     }
+    '/_app/_isAuthenticated/_isAdmin/add': {
+      id: '/_app/_isAuthenticated/_isAdmin/add'
+      path: '/add'
+      fullPath: '/add'
+      preLoaderRoute: typeof AppIsAuthenticatedIsAdminAddImport
+      parentRoute: typeof AppIsAuthenticatedRouteImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AppIsAuthenticatedRouteRouteChildren {
+  AppIsAuthenticatedHistoryRoute: typeof AppIsAuthenticatedHistoryRoute
+  AppIsAuthenticatedProfileRoute: typeof AppIsAuthenticatedProfileRoute
+  AppIsAuthenticatedSettingsRoute: typeof AppIsAuthenticatedSettingsRoute
+  AppIsAuthenticatedWatchlistRoute: typeof AppIsAuthenticatedWatchlistRoute
+  AppIsAuthenticatedIsAdminAddRoute: typeof AppIsAuthenticatedIsAdminAddRoute
+}
+
+const AppIsAuthenticatedRouteRouteChildren: AppIsAuthenticatedRouteRouteChildren =
+  {
+    AppIsAuthenticatedHistoryRoute: AppIsAuthenticatedHistoryRoute,
+    AppIsAuthenticatedProfileRoute: AppIsAuthenticatedProfileRoute,
+    AppIsAuthenticatedSettingsRoute: AppIsAuthenticatedSettingsRoute,
+    AppIsAuthenticatedWatchlistRoute: AppIsAuthenticatedWatchlistRoute,
+    AppIsAuthenticatedIsAdminAddRoute: AppIsAuthenticatedIsAdminAddRoute,
+  }
+
+const AppIsAuthenticatedRouteRouteWithChildren =
+  AppIsAuthenticatedRouteRoute._addFileChildren(
+    AppIsAuthenticatedRouteRouteChildren,
+  )
+
 interface AppRouteRouteChildren {
   AppIndexRouteRoute: typeof AppIndexRouteRoute
+  AppIsAuthenticatedRouteRoute: typeof AppIsAuthenticatedRouteRouteWithChildren
   AppAboutRoute: typeof AppAboutRoute
   AppContactRoute: typeof AppContactRoute
-  AppHistoryRoute: typeof AppHistoryRoute
   AppMoviesRoute: typeof AppMoviesRoute
-  AppProfileRoute: typeof AppProfileRoute
-  AppSettingsRoute: typeof AppSettingsRoute
-  AppWatchlistRoute: typeof AppWatchlistRoute
   AppWatchIdRoute: typeof AppWatchIdRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppIndexRouteRoute: AppIndexRouteRoute,
+  AppIsAuthenticatedRouteRoute: AppIsAuthenticatedRouteRouteWithChildren,
   AppAboutRoute: AppAboutRoute,
   AppContactRoute: AppContactRoute,
-  AppHistoryRoute: AppHistoryRoute,
   AppMoviesRoute: AppMoviesRoute,
-  AppProfileRoute: AppProfileRoute,
-  AppSettingsRoute: AppSettingsRoute,
-  AppWatchlistRoute: AppWatchlistRoute,
   AppWatchIdRoute: AppWatchIdRoute,
 }
 
@@ -191,42 +238,47 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
 )
 
 export interface FileRoutesByFullPath {
-  '': typeof AppRouteRouteWithChildren
+  '': typeof AppIsAuthenticatedRouteRouteWithChildren
   '/': typeof AppIndexRouteRoute
   '/about': typeof AppAboutRoute
   '/contact': typeof AppContactRoute
-  '/history': typeof AppHistoryRoute
   '/movies': typeof AppMoviesRoute
-  '/profile': typeof AppProfileRoute
-  '/settings': typeof AppSettingsRoute
-  '/watchlist': typeof AppWatchlistRoute
+  '/history': typeof AppIsAuthenticatedHistoryRoute
+  '/profile': typeof AppIsAuthenticatedProfileRoute
+  '/settings': typeof AppIsAuthenticatedSettingsRoute
+  '/watchlist': typeof AppIsAuthenticatedWatchlistRoute
   '/watch/$id': typeof AppWatchIdRoute
+  '/add': typeof AppIsAuthenticatedIsAdminAddRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof AppIndexRouteRoute
+  '': typeof AppIsAuthenticatedRouteRouteWithChildren
   '/about': typeof AppAboutRoute
   '/contact': typeof AppContactRoute
-  '/history': typeof AppHistoryRoute
   '/movies': typeof AppMoviesRoute
-  '/profile': typeof AppProfileRoute
-  '/settings': typeof AppSettingsRoute
-  '/watchlist': typeof AppWatchlistRoute
+  '/history': typeof AppIsAuthenticatedHistoryRoute
+  '/profile': typeof AppIsAuthenticatedProfileRoute
+  '/settings': typeof AppIsAuthenticatedSettingsRoute
+  '/watchlist': typeof AppIsAuthenticatedWatchlistRoute
   '/watch/$id': typeof AppWatchIdRoute
+  '/add': typeof AppIsAuthenticatedIsAdminAddRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_app': typeof AppRouteRouteWithChildren
   '/_app/': typeof AppIndexRouteRoute
+  '/_app/_isAuthenticated': typeof AppIsAuthenticatedRouteRouteWithChildren
   '/_app/about': typeof AppAboutRoute
   '/_app/contact': typeof AppContactRoute
-  '/_app/history': typeof AppHistoryRoute
   '/_app/movies': typeof AppMoviesRoute
-  '/_app/profile': typeof AppProfileRoute
-  '/_app/settings': typeof AppSettingsRoute
-  '/_app/watchlist': typeof AppWatchlistRoute
+  '/_app/_isAuthenticated/history': typeof AppIsAuthenticatedHistoryRoute
+  '/_app/_isAuthenticated/profile': typeof AppIsAuthenticatedProfileRoute
+  '/_app/_isAuthenticated/settings': typeof AppIsAuthenticatedSettingsRoute
+  '/_app/_isAuthenticated/watchlist': typeof AppIsAuthenticatedWatchlistRoute
   '/_app/watch/$id': typeof AppWatchIdRoute
+  '/_app/_isAuthenticated/_isAdmin/add': typeof AppIsAuthenticatedIsAdminAddRoute
 }
 
 export interface FileRouteTypes {
@@ -236,35 +288,40 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
-    | '/history'
     | '/movies'
+    | '/history'
     | '/profile'
     | '/settings'
     | '/watchlist'
     | '/watch/$id'
+    | '/add'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | ''
     | '/about'
     | '/contact'
-    | '/history'
     | '/movies'
+    | '/history'
     | '/profile'
     | '/settings'
     | '/watchlist'
     | '/watch/$id'
+    | '/add'
   id:
     | '__root__'
     | '/_app'
     | '/_app/'
+    | '/_app/_isAuthenticated'
     | '/_app/about'
     | '/_app/contact'
-    | '/_app/history'
     | '/_app/movies'
-    | '/_app/profile'
-    | '/_app/settings'
-    | '/_app/watchlist'
+    | '/_app/_isAuthenticated/history'
+    | '/_app/_isAuthenticated/profile'
+    | '/_app/_isAuthenticated/settings'
+    | '/_app/_isAuthenticated/watchlist'
     | '/_app/watch/$id'
+    | '/_app/_isAuthenticated/_isAdmin/add'
   fileRoutesById: FileRoutesById
 }
 
@@ -293,19 +350,27 @@ export const routeTree = rootRoute
       "filePath": "_app/route.tsx",
       "children": [
         "/_app/",
+        "/_app/_isAuthenticated",
         "/_app/about",
         "/_app/contact",
-        "/_app/history",
         "/_app/movies",
-        "/_app/profile",
-        "/_app/settings",
-        "/_app/watchlist",
         "/_app/watch/$id"
       ]
     },
     "/_app/": {
       "filePath": "_app/index/route.tsx",
       "parent": "/_app"
+    },
+    "/_app/_isAuthenticated": {
+      "filePath": "_app/_isAuthenticated/route.tsx",
+      "parent": "/_app",
+      "children": [
+        "/_app/_isAuthenticated/history",
+        "/_app/_isAuthenticated/profile",
+        "/_app/_isAuthenticated/settings",
+        "/_app/_isAuthenticated/watchlist",
+        "/_app/_isAuthenticated/_isAdmin/add"
+      ]
     },
     "/_app/about": {
       "filePath": "_app/about.tsx",
@@ -315,29 +380,33 @@ export const routeTree = rootRoute
       "filePath": "_app/contact.tsx",
       "parent": "/_app"
     },
-    "/_app/history": {
-      "filePath": "_app/history.tsx",
-      "parent": "/_app"
-    },
     "/_app/movies": {
       "filePath": "_app/movies.tsx",
       "parent": "/_app"
     },
-    "/_app/profile": {
-      "filePath": "_app/profile.tsx",
-      "parent": "/_app"
+    "/_app/_isAuthenticated/history": {
+      "filePath": "_app/_isAuthenticated/history.tsx",
+      "parent": "/_app/_isAuthenticated"
     },
-    "/_app/settings": {
-      "filePath": "_app/settings.tsx",
-      "parent": "/_app"
+    "/_app/_isAuthenticated/profile": {
+      "filePath": "_app/_isAuthenticated/profile.tsx",
+      "parent": "/_app/_isAuthenticated"
     },
-    "/_app/watchlist": {
-      "filePath": "_app/watchlist.tsx",
-      "parent": "/_app"
+    "/_app/_isAuthenticated/settings": {
+      "filePath": "_app/_isAuthenticated/settings.tsx",
+      "parent": "/_app/_isAuthenticated"
+    },
+    "/_app/_isAuthenticated/watchlist": {
+      "filePath": "_app/_isAuthenticated/watchlist.tsx",
+      "parent": "/_app/_isAuthenticated"
     },
     "/_app/watch/$id": {
       "filePath": "_app/watch/$id.tsx",
       "parent": "/_app"
+    },
+    "/_app/_isAuthenticated/_isAdmin/add": {
+      "filePath": "_app/_isAuthenticated/_isAdmin/add.tsx",
+      "parent": "/_app/_isAuthenticated"
     }
   }
 }

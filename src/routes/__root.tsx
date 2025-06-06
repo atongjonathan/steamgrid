@@ -1,29 +1,23 @@
-import { AuthProvider } from '@/components/context/AuthContext'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { type AuthContextType } from '@/components/context/AuthContext'
+import type { QueryClient } from '@tanstack/react-query'
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-import { Toaster } from 'sonner'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-const queryClient = new QueryClient()
 
-export const Route = createRootRoute({
+
+interface MyRouterContext {
+  // The ReturnType of your useAuth hook or the value of your AuthContext
+  auth: AuthContextType,
+  queryClient: QueryClient
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Toaster position="top-right" closeButton toastOptions={{
-          classNames: {
-            toast: '!bg-subMain',
-            title: '!text-white',
-            closeButton: '!bg-subMain !text-white !hover:text-subMain',
-            icon: '!text-white'
-          },
-        }} />
+    <>
+      <Outlet />
+      <TanStackRouterDevtools />
 
-        <Outlet />
-        <TanStackRouterDevtools />
-
-      </AuthProvider>
-    </QueryClientProvider>
+    </>
   ),
 })
