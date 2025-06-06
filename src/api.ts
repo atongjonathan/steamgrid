@@ -1,5 +1,5 @@
 import axios, { type AxiosRequestConfig } from "axios"
-import { getTokenFromCookies } from "./components/context/AuthContext"
+import Cookies from "js-cookie";
 
 
 const API_BASE = import.meta.env.VITE_API_BASE
@@ -76,9 +76,9 @@ export type UserUpdatePayload = Partial<Record<"plan_ids" | "hold_ids" | "droppe
 
 api.interceptors.request.use(
     (config) => {
-        const token = getTokenFromCookies()
-        if (token && config.headers) {
-            config.headers['Authorization'] = `Bearer ${token}`;
+        const access = Cookies.get("access")
+        if (access && config.headers) {
+            config.headers['Authorization'] = `Bearer ${access}`;
         }
         return config;
     }
@@ -134,6 +134,10 @@ export async function login(data: {
     password: string;
 }) {
     return (await api.post("/token/", data)).data as { access: string, refresh: string };
+
+}
+export async function getNewToken(refresh: string) {
+    return (await api.post("/token/refresh/", { refresh })).data as { access: string, refresh: string };
 
 }
 

@@ -7,12 +7,13 @@ import React, {
 } from 'react';
 // import { getErrorMessage, getUser, login, logout, toastConfig } from '../api';
 import { toast } from 'sonner';
-
+import Cookies from "js-cookie"
+import { jwtDecode } from "jwt-decode";
+import dayjs from "dayjs"
 // Type definitions
 
 export type Theme = "dark-high-contrast" | "high-contrast" | "dark" | "default"
 export interface AuthContextType {
-  token: string | null;
   isAuthenticated: boolean;
   user?: User;
   fetchUser: () => Promise<void>;
@@ -24,31 +25,21 @@ export interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Utility functions for working with cookies
-export const getTokenFromCookies = (): string | null => {
-  const match = document.cookie.match(/(^| )token=([^;]+)/);
-  return match ? match[2] : null;
-};
 
-export const setTokenCookie = (token: string): void => {
-  document.cookie = `token=${token}; path=/; secure; samesite=strict`;
-};
-
-export const clearTokenCookie = (): void => {
-  document.cookie = 'token=; Max-Age=0; path=/';
-};
 
 interface AuthProviderProps {
   children: React.ReactNode;
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const token = getTokenFromCookies();
-  const isAuthenticated = !!token;
+  const access = Cookies.get("access");
+  const decoded: { exp: number } = access ? jwtDecode(access) : { exp: 0 };
+  const isAuthenticated = dayjs.unix(decoded.exp).diff(dayjs()) < 0;
 
   const userQuery = useQuery({
-    queryKey: ["userQuery", token],
+    queryKey: ["userQuery", access],
     queryFn: getUser,
-    enabled: !!token,
+    enabled: !!access,
     retry: false,
   });
 
@@ -67,15 +58,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const localLogout = () => {
-    clearTokenCookie();
-    setTokenCookie("");
+    Cookies.remove("access")
+    Cookies.remove("refresh")
     toast.info("Logged Out");
     // Optional: clear React Query cache if needed
     // queryClient.removeQueries(['userQuery']);
   };
 
   const value: AuthContextType = {
-    token,
     isAuthenticated,
     user,
     fetchUser,

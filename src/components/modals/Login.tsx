@@ -25,7 +25,8 @@ import { useMutation } from "@tanstack/react-query"
 import { getErrorMessage, login } from "@/api"
 import type { AxiosError } from "axios"
 import { Loader2Icon } from "lucide-react"
-import { setTokenCookie, useAuth } from "../context/AuthContext"
+import { useAuth } from "../context/AuthContext"
+import Cookies from "js-cookie"
 
 
 type LoginProps = {
@@ -62,8 +63,9 @@ export default function Login({ loginClass, loginProps }: LoginProps) {
         {
             mutationKey: ["login"],
             mutationFn: login,
-            onSuccess: async (data) => {
-                setTokenCookie(data.access)
+            onSuccess: async ({ access, refresh }) => {
+                Cookies.set("access", access)
+                Cookies.set("refresh", refresh)
                 setisLoginOpen(false)
                 toast.success("Logged in")
                 await fetchUser()
