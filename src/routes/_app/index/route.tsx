@@ -1,8 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
-import HomeBanner from './-components/Banner/Banner'
+import Banner from './-components/Banner/Banner'
 import SgSlider from './-components/SGSlider';
-import { Banner, BannerClose, BannerIcon, BannerTitle, BannerAction } from '@/components/ui/shadcn-io/banner';
-import { CircleAlert } from 'lucide-react';
+import InfoBanner from './-components/InfoBanner';
 
 export const Route = createFileRoute('/_app/')({
   component: RouteComponent,
@@ -50,30 +49,15 @@ function RouteComponent() {
   ]
 
   return (
-    <>
-      <Banner className="border border-white rounded mx-1">
-        <BannerIcon icon={CircleAlert} />
-        <BannerTitle>
-          You are currently using the new improved UI experience.
-        </BannerTitle>
-        <BannerAction
-          className="bg-main border border-white hover:bg-main/70 hover:text-white"
-          asChild
-        >
-          <a rel="noopener" href="https://streamgrid.stream" target="_blank">
-            Go back
-          </a>
-        </BannerAction>
-        <BannerClose />
-      </Banner>
-
-      <HomeBanner />
-
+    <div className='lg:mt-20 md:mt-[70px] mt-14'>
+      <InfoBanner/>
+      <Banner />
+    
       <div className="pl-6 pr-2">
         {sliders.map(({ title, params }) => (
           <SgSlider key={title} title={title} params={params} />
         ))}
       </div>
-    </>
+    </div>
   )
 }

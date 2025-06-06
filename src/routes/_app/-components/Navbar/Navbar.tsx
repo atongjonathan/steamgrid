@@ -165,10 +165,12 @@ const Navbar = () => {
 
 
   return (
-    <NavigationMenu className="w-full px-5">
-      <MobileNavbar />
-      <LargeNavbar />
-    </NavigationMenu>
+    <div className="relative">
+      <NavigationMenu className="w-full px-5 fixed z-50 top-0 bg-background/90">
+        <MobileNavbar />
+        <LargeNavbar />
+      </NavigationMenu>
+    </div>
   );
 };
 
