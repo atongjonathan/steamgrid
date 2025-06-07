@@ -73,7 +73,7 @@ const SgSlider = ({ params, title }: { params: Record<string, any>, title: strin
 
     return (
         <LazyLoadComponent visibleByDefault={visibleTitles.includes(title)} >
-            <div className="lg:mt-8 mt-5">
+            <div className="lg:mt-5 mt-5">
                 <div className="w-full flex justify-between">
                     <div className="flex sm:gap-3 gap-2 items-center truncate">
                         {

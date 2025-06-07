@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app/route'
+import { Route as AppSearchImport } from './routes/_app/search'
 import { Route as AppMoviesImport } from './routes/_app/movies'
 import { Route as AppContactImport } from './routes/_app/contact'
 import { Route as AppAboutImport } from './routes/_app/about'
@@ -30,6 +31,12 @@ import { Route as AppIsAuthenticatedIsAdminAddImport } from './routes/_app/_isAu
 const AppRouteRoute = AppRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AppSearchRoute = AppSearchImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => AppRouteRoute,
 } as any)
 
 const AppMoviesRoute = AppMoviesImport.update({
@@ -153,6 +160,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMoviesImport
       parentRoute: typeof AppRouteImport
     }
+    '/_app/search': {
+      id: '/_app/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof AppSearchImport
+      parentRoute: typeof AppRouteImport
+    }
     '/_app/_isAuthenticated/_isAdmin': {
       id: '/_app/_isAuthenticated/_isAdmin'
       path: ''
@@ -250,6 +264,7 @@ interface AppRouteRouteChildren {
   AppAboutRoute: typeof AppAboutRoute
   AppContactRoute: typeof AppContactRoute
   AppMoviesRoute: typeof AppMoviesRoute
+  AppSearchRoute: typeof AppSearchRoute
   AppWatchIdRoute: typeof AppWatchIdRoute
 }
 
@@ -259,6 +274,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppAboutRoute: AppAboutRoute,
   AppContactRoute: AppContactRoute,
   AppMoviesRoute: AppMoviesRoute,
+  AppSearchRoute: AppSearchRoute,
   AppWatchIdRoute: AppWatchIdRoute,
 }
 
@@ -272,6 +288,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AppAboutRoute
   '/contact': typeof AppContactRoute
   '/movies': typeof AppMoviesRoute
+  '/search': typeof AppSearchRoute
   '/history': typeof AppIsAuthenticatedHistoryRoute
   '/profile': typeof AppIsAuthenticatedProfileRoute
   '/settings': typeof AppIsAuthenticatedSettingsRoute
@@ -286,6 +303,7 @@ export interface FileRoutesByTo {
   '/about': typeof AppAboutRoute
   '/contact': typeof AppContactRoute
   '/movies': typeof AppMoviesRoute
+  '/search': typeof AppSearchRoute
   '/history': typeof AppIsAuthenticatedHistoryRoute
   '/profile': typeof AppIsAuthenticatedProfileRoute
   '/settings': typeof AppIsAuthenticatedSettingsRoute
@@ -302,6 +320,7 @@ export interface FileRoutesById {
   '/_app/about': typeof AppAboutRoute
   '/_app/contact': typeof AppContactRoute
   '/_app/movies': typeof AppMoviesRoute
+  '/_app/search': typeof AppSearchRoute
   '/_app/_isAuthenticated/_isAdmin': typeof AppIsAuthenticatedIsAdminRouteRouteWithChildren
   '/_app/_isAuthenticated/history': typeof AppIsAuthenticatedHistoryRoute
   '/_app/_isAuthenticated/profile': typeof AppIsAuthenticatedProfileRoute
@@ -319,6 +338,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/movies'
+    | '/search'
     | '/history'
     | '/profile'
     | '/settings'
@@ -332,6 +352,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/movies'
+    | '/search'
     | '/history'
     | '/profile'
     | '/settings'
@@ -346,6 +367,7 @@ export interface FileRouteTypes {
     | '/_app/about'
     | '/_app/contact'
     | '/_app/movies'
+    | '/_app/search'
     | '/_app/_isAuthenticated/_isAdmin'
     | '/_app/_isAuthenticated/history'
     | '/_app/_isAuthenticated/profile'
@@ -385,6 +407,7 @@ export const routeTree = rootRoute
         "/_app/about",
         "/_app/contact",
         "/_app/movies",
+        "/_app/search",
         "/_app/watch/$id"
       ]
     },
@@ -413,6 +436,10 @@ export const routeTree = rootRoute
     },
     "/_app/movies": {
       "filePath": "_app/movies.tsx",
+      "parent": "/_app"
+    },
+    "/_app/search": {
+      "filePath": "_app/search.tsx",
       "parent": "/_app"
     },
     "/_app/_isAuthenticated/_isAdmin": {

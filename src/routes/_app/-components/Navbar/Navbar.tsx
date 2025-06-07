@@ -1,4 +1,4 @@
-import { Link, } from "@tanstack/react-router";
+import { Link, useLocation, } from "@tanstack/react-router";
 import logo from "../../../../assets/logo.png"
 import {
   NavigationMenu,
@@ -11,10 +11,10 @@ import { useAuth } from "@/components/context/AuthContext";
 import { useState, type FC } from "react";
 import Login from "@/components/modals/Login";
 import SignUp from "@/components/modals/SignUp";
-import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import MoreNavItem from "./MoreNavItem";
-import { Bookmark, History, Settings } from "lucide-react";
+import { ArrowLeft, Bookmark, Filter, History, Settings } from "lucide-react";
+import InputSearch from "./InputSearch";
 
 export const UserMenuItem: FC<{ baseClasses: string }> = ({ baseClasses }) => {
 
@@ -93,19 +93,28 @@ const LargeNavbar = () => {
 
   return (
     <div className="hidden md:flex px-7 py-3 justify-between items-center min-h-7 w-full">
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link to="/" className="flex items-center justify-center">
+              <img
+                src={logo}
+                alt="logo"
+                className="w-full h-12 object-contain scale-[0.5]"
+              />
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem >
+          <NavigationMenuLink>
+            <InputSearch />
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+      </NavigationMenuList>
       {/* Logo */}
-      <NavigationMenuLink asChild>
-        <Link to="/" className="flex items-center justify-center">
-          <img
-            src={logo}
-            alt="logo"
-            className="w-full h-12 object-contain scale-[0.5]"
-          />
-        </Link>
-      </NavigationMenuLink>
-      <NavigationMenuLink className="w-6/12">
-        <Input placeholder='Search' />
-      </NavigationMenuLink>
+
+
 
 
 
@@ -133,6 +142,27 @@ const LargeNavbar = () => {
 const MobileNavbar = () => {
 
   const baseClasses = "border py-2 px-3 rounded-lg transitions flex gap-2 items-center [&.active]:text-subMain";
+  const { pathname } = useLocation()
+
+
+  if (pathname === "/search")
+    return (
+      <div className="md:hidden flex items-center gap-2 w-full bg-background text-foreground">
+        {/* Back button */}
+        <Link to="/" className="p-2 text-muted-foreground hover:text-foreground">
+          <ArrowLeft size={20} />
+        </Link>
+
+        {/* Search input */}
+        <InputSearch />
+
+
+        {/* Filter button */}
+        <Link to="/" className="p-2 text-muted-foreground hover:text-foreground">
+          <Filter size={20} />
+        </Link>
+      </div>
+    )
 
 
 
@@ -150,7 +180,7 @@ const MobileNavbar = () => {
               />
             </Link>
           </NavigationMenuLink>
-          <Input placeholder='Search' />
+          <InputSearch />
         </NavigationMenu>
         <UserMenuItem baseClasses={baseClasses} />
         <MoreNavItem />
