@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getMovies } from '@/api'
 import { Search, Star } from 'lucide-react'
 import { isMobile } from 'react-device-detect';
-import { useNavigate } from '@tanstack/react-router'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 import Skeleton from 'react-loading-skeleton'
 
 const mockResults = [
@@ -42,6 +42,7 @@ export default function InputSearch() {
     const [query, setQuery] = useState('')
     const [isFocused, setIsFocused] = useState(false)
     const navigate = useNavigate()
+    const { pathname } = useLocation()
 
 
     const filteredResults = query
@@ -69,7 +70,7 @@ export default function InputSearch() {
                         else
                             setIsFocused(true);
                     }}
-                    autoFocus={window.innerWidth <= 768 || isMobile ? true : undefined}
+                    autoFocus={pathname.includes("/search") ? true : undefined}
                     onBlur={() => setTimeout(() => setIsFocused(false), 150)}
                 />
             </div>
