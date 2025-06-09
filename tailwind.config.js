@@ -17,7 +17,7 @@ export default {
   			text: '#C0C0C0',
   			main: '#080A1A',
   			dryGray: 'rgb(224 213 213)',
-  			border: 'hsl(var(--border))',
+  			border: '#14759f',
   			star: 'rgb(255 176 0)',
   			dry: '#0b0f29',
   			background: '#080A1A',
