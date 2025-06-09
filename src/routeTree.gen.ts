@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app/route'
 import { Route as AppSearchImport } from './routes/_app/search'
 import { Route as AppMoviesImport } from './routes/_app/movies'
+import { Route as AppExploreImport } from './routes/_app/explore'
 import { Route as AppContactImport } from './routes/_app/contact'
 import { Route as AppAboutImport } from './routes/_app/about'
 import { Route as AppIsAuthenticatedRouteImport } from './routes/_app/_isAuthenticated/route'
@@ -42,6 +43,12 @@ const AppSearchRoute = AppSearchImport.update({
 const AppMoviesRoute = AppMoviesImport.update({
   id: '/movies',
   path: '/movies',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppExploreRoute = AppExploreImport.update({
+  id: '/explore',
+  path: '/explore',
   getParentRoute: () => AppRouteRoute,
 } as any)
 
@@ -151,6 +158,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof AppContactImport
+      parentRoute: typeof AppRouteImport
+    }
+    '/_app/explore': {
+      id: '/_app/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof AppExploreImport
       parentRoute: typeof AppRouteImport
     }
     '/_app/movies': {
@@ -263,6 +277,7 @@ interface AppRouteRouteChildren {
   AppIsAuthenticatedRouteRoute: typeof AppIsAuthenticatedRouteRouteWithChildren
   AppAboutRoute: typeof AppAboutRoute
   AppContactRoute: typeof AppContactRoute
+  AppExploreRoute: typeof AppExploreRoute
   AppMoviesRoute: typeof AppMoviesRoute
   AppSearchRoute: typeof AppSearchRoute
   AppWatchIdRoute: typeof AppWatchIdRoute
@@ -273,6 +288,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppIsAuthenticatedRouteRoute: AppIsAuthenticatedRouteRouteWithChildren,
   AppAboutRoute: AppAboutRoute,
   AppContactRoute: AppContactRoute,
+  AppExploreRoute: AppExploreRoute,
   AppMoviesRoute: AppMoviesRoute,
   AppSearchRoute: AppSearchRoute,
   AppWatchIdRoute: AppWatchIdRoute,
@@ -287,6 +303,7 @@ export interface FileRoutesByFullPath {
   '/': typeof AppIndexRouteRoute
   '/about': typeof AppAboutRoute
   '/contact': typeof AppContactRoute
+  '/explore': typeof AppExploreRoute
   '/movies': typeof AppMoviesRoute
   '/search': typeof AppSearchRoute
   '/history': typeof AppIsAuthenticatedHistoryRoute
@@ -302,6 +319,7 @@ export interface FileRoutesByTo {
   '': typeof AppIsAuthenticatedIsAdminRouteRouteWithChildren
   '/about': typeof AppAboutRoute
   '/contact': typeof AppContactRoute
+  '/explore': typeof AppExploreRoute
   '/movies': typeof AppMoviesRoute
   '/search': typeof AppSearchRoute
   '/history': typeof AppIsAuthenticatedHistoryRoute
@@ -319,6 +337,7 @@ export interface FileRoutesById {
   '/_app/_isAuthenticated': typeof AppIsAuthenticatedRouteRouteWithChildren
   '/_app/about': typeof AppAboutRoute
   '/_app/contact': typeof AppContactRoute
+  '/_app/explore': typeof AppExploreRoute
   '/_app/movies': typeof AppMoviesRoute
   '/_app/search': typeof AppSearchRoute
   '/_app/_isAuthenticated/_isAdmin': typeof AppIsAuthenticatedIsAdminRouteRouteWithChildren
@@ -337,6 +356,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/explore'
     | '/movies'
     | '/search'
     | '/history'
@@ -351,6 +371,7 @@ export interface FileRouteTypes {
     | ''
     | '/about'
     | '/contact'
+    | '/explore'
     | '/movies'
     | '/search'
     | '/history'
@@ -366,6 +387,7 @@ export interface FileRouteTypes {
     | '/_app/_isAuthenticated'
     | '/_app/about'
     | '/_app/contact'
+    | '/_app/explore'
     | '/_app/movies'
     | '/_app/search'
     | '/_app/_isAuthenticated/_isAdmin'
@@ -406,6 +428,7 @@ export const routeTree = rootRoute
         "/_app/_isAuthenticated",
         "/_app/about",
         "/_app/contact",
+        "/_app/explore",
         "/_app/movies",
         "/_app/search",
         "/_app/watch/$id"
@@ -432,6 +455,10 @@ export const routeTree = rootRoute
     },
     "/_app/contact": {
       "filePath": "_app/contact.tsx",
+      "parent": "/_app"
+    },
+    "/_app/explore": {
+      "filePath": "_app/explore.tsx",
       "parent": "/_app"
     },
     "/_app/movies": {

@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import MoreNavItem from "./MoreNavItem";
 import { ArrowLeft, Bookmark, Filter, History, Settings } from "lucide-react";
 import InputSearch from "./InputSearch";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const UserMenuItem: FC<{ baseClasses: string }> = ({ baseClasses }) => {
 
@@ -158,9 +159,18 @@ const MobileNavbar = () => {
 
 
         {/* Filter button */}
-        <Link to="/" className="p-2 text-muted-foreground hover:text-foreground">
-          <Filter size={20} />
-        </Link>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link to="/" className="p-2 text-muted-foreground hover:text-foreground">
+                <Filter size={20} />
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Explore</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     )
 

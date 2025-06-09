@@ -5,12 +5,14 @@ import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { useQuery } from '@tanstack/react-query'
 import { getMovies, getTrending, type MinMovie, type MoviesResponse, type TrendingResponse } from '@/api'
-import { Search, Star } from 'lucide-react'
+import { Filter, Search, Star } from 'lucide-react'
 import { isMobile } from 'react-device-detect';
-import { useLocation, useNavigate, useSearch } from '@tanstack/react-router'
+import { Link, useLocation, useNavigate, useSearch } from '@tanstack/react-router'
 import Skeleton from 'react-loading-skeleton'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/opacity.css';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
 
 export default function InputSearch() {
     const [isFocused, setIsFocused] = useState(false)
@@ -66,6 +68,23 @@ export default function InputSearch() {
                     autoFocus={pathname.includes("/search") ? true : undefined}
                     onBlur={() => setTimeout(() => setIsFocused(false), 150)}
                 />
+                {
+                    isFocused && (
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                     <Link to="/" className="p-2 text-muted-foreground hover:text-foreground">
+                                    <Filter size={20} />
+                                </Link>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Explore</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    )
+                }
+
             </div>
 
             {isFocused && (
@@ -136,7 +155,7 @@ export function SearchCardContents() {
                             (finalResults?.length ?? 0) > 0 ? <>
                                 {
                                     finalResults?.map((result) => (
-                                        <div
+                                        <Link to="/watch/$id" params={{ id: result.id.toString() }}
                                             key={result.id}
                                             className={cn(
                                                 'flex items-center gap-4 px-4 py-3 cursor-pointer hover:bg-white/10 transition-colors'
@@ -160,7 +179,7 @@ export function SearchCardContents() {
 
                                                 </div>
                                             </div>
-                                        </div>
+                                        </Link>
                                     )
                                     )
 
