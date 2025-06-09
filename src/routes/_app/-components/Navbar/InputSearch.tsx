@@ -4,12 +4,13 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { useQuery } from '@tanstack/react-query'
-import { getMovies } from '@/api'
+import { getMovies, getTrending, type MinMovie, type MoviesResponse, type TrendingResponse } from '@/api'
 import { Search, Star } from 'lucide-react'
 import { isMobile } from 'react-device-detect';
 import { useLocation, useNavigate, useSearch } from '@tanstack/react-router'
 import Skeleton from 'react-loading-skeleton'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import 'react-lazy-load-image-component/src/effects/opacity.css';
 
 export default function InputSearch() {
     const [isFocused, setIsFocused] = useState(false)
@@ -79,13 +80,35 @@ export default function InputSearch() {
 
 export function SearchCardContents() {
     const search = (useSearch({ strict: false }) as Record<string, string>).q || ""
-    const { isLoading, data } = useQuery({
-        queryKey: ["search", search],
+
+    const searchQuery = useQuery<MoviesResponse>({
+        queryKey: ['search', search],
         queryFn: () => {
-            return getMovies({ params: { limit: 7, search } })
+            return getMovies({ params: { limit: 7, search } });
         },
+        enabled: !!search, // Only run when `search` is truthy
         staleTime: Infinity,
-    })
+    });
+
+    // Trending query (used for fallback)
+    const trendingQuery = useQuery<TrendingResponse>({
+        queryKey: ['bannerQuery'],
+        queryFn: getTrending,
+        staleTime: Infinity,
+    });
+
+    const finalResults: MinMovie[] | undefined = search
+        ? searchQuery.data?.results
+        : trendingQuery.data?.results.map(movie => ({
+            id: movie.id,
+            poster: movie.poster,
+            title: movie.title,
+            year: movie.year,
+            rating_star: Number(movie.rating_star), // ensure type compatibility
+        }));
+
+    const isLoading = search ? searchQuery.isLoading : trendingQuery.isLoading;
+
 
     return (
         <CardContent className="p-0">
@@ -96,13 +119,13 @@ export function SearchCardContents() {
                             'flex items-center gap-4 px-4 py-3 cursor-pointer hover:bg-white/10 transition-colors'
                         )}
                     >
-                        <Skeleton width={100}  baseColor='rgb(22 28 63)'
+                        <Skeleton width={100} baseColor='rgb(22 28 63)'
                             className="w-16 h-10 object-cover rounded-md"
                         />
                         <div className="text-sm font-medium text-foreground">
-                            <p><Skeleton width={100}  baseColor='rgb(22 28 63)'/></p>
+                            <p><Skeleton width={100} baseColor='rgb(22 28 63)' /></p>
                             <div className='flex gap-2 items-center'>
-                                <Skeleton width={30}  baseColor='rgb(22 28 63)'/>
+                                <Skeleton width={30} baseColor='rgb(22 28 63)' />
                             </div>
                         </div>
                     </div>
@@ -110,21 +133,21 @@ export function SearchCardContents() {
                     <>
                         {
 
-                            data?.count ?? 0 > 0 ? <>
+                            (finalResults?.length ?? 0) > 0 ? <>
                                 {
-                                    data?.results.map((result) => (
+                                    finalResults?.map((result) => (
                                         <div
                                             key={result.id}
                                             className={cn(
                                                 'flex items-center gap-4 px-4 py-3 cursor-pointer hover:bg-white/10 transition-colors'
                                             )}
                                         >
-                                            <LazyLoadImage
+                                            <LazyLoadImage effect='opacity'
                                                 src={result.poster}
                                                 alt={result.title}
                                                 className="w-16 h-10 object-cover rounded-md"
                                                 placeholder={(
-                                                    <div><Skeleton baseColor='rgb(22 28 63)' width={60} height={30}/></div>
+                                                    <div><Skeleton baseColor='rgb(22 28 63)' width={60} height={30} /></div>
                                                 )}
                                             />
                                             <div className="text-sm font-medium text-foreground">

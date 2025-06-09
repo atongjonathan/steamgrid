@@ -8,6 +8,9 @@ import type { BannerMovie } from '@/api';
 import { Button } from '@/components/ui/button';
 import { Link } from '@tanstack/react-router';
 import Actions from './Actions';
+import 'react-lazy-load-image-component/src/effects/opacity.css';
+import 'react-loading-skeleton/dist/skeleton.css';
+
 
 const BannerItem: React.FC<{ movie: BannerMovie }> = ({ movie }) => {
     const swiperSlide = useSwiperSlide();

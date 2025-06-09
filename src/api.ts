@@ -55,6 +55,7 @@ export type BannerMovie = {
     genre: string[];
     year: number;
     runtime: string;
+    rating_star: string;
 };
 
 export type Pagination = {
