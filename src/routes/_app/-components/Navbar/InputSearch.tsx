@@ -45,7 +45,7 @@ export default function InputSearch() {
 
     return (
         <div className="relative lg:w-[400px] w-full">
-            <div className="w-full flex items-center">
+            <div className="w-full flex items-center p-2">
                 <Input
                     startIcon={Search}
                     placeholder="Search movie or concept"
@@ -96,13 +96,13 @@ export function SearchCardContents() {
                             'flex items-center gap-4 px-4 py-3 cursor-pointer hover:bg-white/10 transition-colors'
                         )}
                     >
-                        <Skeleton
+                        <Skeleton width={100}  baseColor='rgb(22 28 63)'
                             className="w-16 h-10 object-cover rounded-md"
                         />
                         <div className="text-sm font-medium text-foreground">
-                            <p><Skeleton /></p>
+                            <p><Skeleton width={100}  baseColor='rgb(22 28 63)'/></p>
                             <div className='flex gap-2 items-center'>
-                                <Skeleton />
+                                <Skeleton width={30}  baseColor='rgb(22 28 63)'/>
                             </div>
                         </div>
                     </div>
