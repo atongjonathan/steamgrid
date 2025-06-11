@@ -162,7 +162,7 @@ const MobileNavbar = () => {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link to="/" className="p-2 text-muted-foreground hover:text-foreground">
+              <Link to="/explore" className="p-2 text-muted-foreground hover:text-foreground">
                 <Filter size={20} />
               </Link>
             </TooltipTrigger>
