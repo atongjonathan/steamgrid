@@ -199,3 +199,16 @@ select:focus {
     }
 
 }
+span.wrapper[style*="background-image"] {
+    border-radius: 0.5rem;
+    animation: fill 0.5s ease-in-out 0.5s forwards;
+    }
+    
+    @Keyframes fill {
+    from {
+    filter: blur(15px);
+    }
+    to {
+    filter: blur(0px) ;
+    }
+    }

@@ -13,7 +13,7 @@ function RouteComponent() {
         <Navbar />
 
         <MobileFooterNav />
-        <div className="">
+        <div className="lg:mt-20 md:mt-[70px] mt-14">
           <Outlet />
         </div>
 

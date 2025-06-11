@@ -49,7 +49,7 @@ function RouteComponent() {
   ]
 
   return (
-    <div className='lg:mt-20 md:mt-[70px] mt-14'>
+    <>
       <InfoBanner/>
       <Banner />
     
@@ -58,6 +58,6 @@ function RouteComponent() {
           <SgSlider key={title} title={title} params={params} />
         ))}
       </div>
-    </div>
+    </>
   )
 }
