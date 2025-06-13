@@ -23,7 +23,10 @@ export const Route = createFileRoute('/_app/explore')({
 });
 
 type Params = Record<string, string | number | null>;
-
+export const genres = [
+  "Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family",
+  "Fantasy", "History", "Horror", "Musical", "Mystery", "Romance", "Sci-Fi", "Sport", "Thriller", "War", "Western", "Short"
+];
 function RouteComponent() {
   const searchParams = useSearch({ strict: false }) as Record<string, string>;
   const navigate = Route.useNavigate();
@@ -31,10 +34,7 @@ function RouteComponent() {
 
   const pageIndex = parseInt(searchParams.page || '1', 10) - 1;
   const pageSize = parseInt(searchParams.pageSize || '16', 10);
-  const genres = [
-    "Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family",
-    "Fantasy", "History", "Horror", "Musical", "Mystery", "Romance", "Sci-Fi", "Sport", "Thriller", "War", "Western", "Short"
-  ];
+  
 
   const startYear = 2000;
   const endYear = new Date().getFullYear();
@@ -161,7 +161,7 @@ function RouteComponent() {
       {/** Filter Panel */}
       <div
         className={cn(
-          'grid gap-3 items-end w-full transition-all duration-300 ease-linear overflow-hidden',
+          'grid gap-3 items-end w-full transition-all duration-300 ease-linear overflow-hidden pt-2',
           display
             ? 'opacity-100 max-h-[500px] visible'
             : 'opacity-0 max-h-0 invisible'

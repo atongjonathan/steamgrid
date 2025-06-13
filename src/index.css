@@ -212,3 +212,14 @@ span.wrapper[style*="background-image"] {
     filter: blur(0px) ;
     }
     }
+
+    @media (min-width: 1024px) {
+        .hide-scrollbar-lg {
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none;  /* IE/Edge */
+        }
+        .hide-scrollbar-lg::-webkit-scrollbar {
+          display: none; /* Chrome, Safari */
+        }
+      }
+      

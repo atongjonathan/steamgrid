@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import Banner from './-components/Banner/Banner'
 import SgSlider from './-components/SGSlider';
 import InfoBanner from './-components/InfoBanner';
+import Categories from './-components/Categories';
 
 export const Route = createFileRoute('/_app/')({
   component: RouteComponent,
@@ -50,9 +51,9 @@ function RouteComponent() {
 
   return (
     <>
-      <InfoBanner/>
+      <InfoBanner />
+      <Categories />
       <Banner />
-    
       <div className="pl-6 pr-2">
         {sliders.map(({ title, params }) => (
           <SgSlider key={title} title={title} params={params} />
