@@ -51,7 +51,7 @@ export default function InputSearch() {
             <div className="w-full flex items-center p-2">
                 <Input
                     startIcon={Search}
-                    placeholder="Search movie or concept"
+                    placeholder="Search movie or concept ..."
                     value={query}
                     onChange={(e) => {
                         console.log(e.target.value);

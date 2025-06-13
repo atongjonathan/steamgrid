@@ -31,13 +31,19 @@ function RouteComponent() {
 
   const pageIndex = parseInt(searchParams.page || '1', 10) - 1;
   const pageSize = parseInt(searchParams.pageSize || '16', 10);
+  const genres = [
+    "Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family",
+    "Fantasy", "History", "Horror", "Musical", "Mystery", "Romance", "Sci-Fi", "Sport", "Thriller", "War", "Western", "Short"
+];
+
+const country_list = ["Afghanistan", "Albania", "Algeria", "United States", "Canada", "India", "United Kingdom", "Nigeria", "France", "Germany", "China", "Japan", "South Korea", "Australia", "Brazil", "South Africa", "Mexico", "Italy", "Spain", "Russia", "Turkey", "Egypt", "Argentina", "Indonesia", "Vietnam", "Thailand", "Kenya", "Ghana", "Pakistan", "Bangladesh", "Philippines", "Others"];
 
   const filters = [
     {
       label: 'Genre',
       key: 'genre',
       value: searchParams.genre || 'Any',
-      items: ['Any', 'Action', 'Drama', 'Comedy', 'Sci‑Fi'],
+      items: genres,
     },
     {
       label: 'Year',
@@ -55,7 +61,7 @@ function RouteComponent() {
       label: 'Country',
       key: 'country',
       value: searchParams.country || 'Any',
-      items: ['Any', 'United States', 'India', 'Kenya', 'UK', 'Canada'],
+      items: country_list,
     },
   ];
 
@@ -181,7 +187,7 @@ function RouteComponent() {
         </div>
         <div className='mx-3'>
         <Input
-            placeholder="Find in page"
+            placeholder="Find in page ..."
             startIcon={Search}
             className='grid-cols-4'
             onInput={(e) => {
