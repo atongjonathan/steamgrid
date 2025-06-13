@@ -34,22 +34,24 @@ function RouteComponent() {
   const genres = [
     "Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family",
     "Fantasy", "History", "Horror", "Musical", "Mystery", "Romance", "Sci-Fi", "Sport", "Thriller", "War", "Western", "Short"
-];
+  ];
 
-const country_list = ["Afghanistan", "Albania", "Algeria", "United States", "Canada", "India", "United Kingdom", "Nigeria", "France", "Germany", "China", "Japan", "South Korea", "Australia", "Brazil", "South Africa", "Mexico", "Italy", "Spain", "Russia", "Turkey", "Egypt", "Argentina", "Indonesia", "Vietnam", "Thailand", "Kenya", "Ghana", "Pakistan", "Bangladesh", "Philippines", "Others"];
-
+  const startYear = 2000;
+  const endYear = new Date().getFullYear();
+  const country_list = ["Afghanistan", "Albania", "Algeria", "United States", "Canada", "India", "United Kingdom", "Nigeria", "France", "Germany", "China", "Japan", "South Korea", "Australia", "Brazil", "South Africa", "Mexico", "Italy", "Spain", "Russia", "Turkey", "Egypt", "Argentina", "Indonesia", "Vietnam", "Thailand", "Kenya", "Ghana", "Pakistan", "Bangladesh", "Philippines", "Others"];
+  const years = Array(endYear - startYear + 1).fill(0).map((_, i) => (startYear + i).toString()).reverse();
   const filters = [
     {
       label: 'Genre',
       key: 'genre',
       value: searchParams.genre || 'Any',
-      items: genres,
+      items: ["Any", ...genres],
     },
     {
       label: 'Year',
       key: 'year',
       value: searchParams.year || 'Any',
-      items: ['Any', '2025', '2024', '2023', '2022'],
+      items: ['Any', ...years],
     },
     {
       label: 'Sort',
@@ -61,7 +63,7 @@ const country_list = ["Afghanistan", "Albania", "Algeria", "United States", "Can
       label: 'Country',
       key: 'country',
       value: searchParams.country || 'Any',
-      items: country_list,
+      items: ['Any', ...country_list],
     },
   ];
 
@@ -77,10 +79,7 @@ const country_list = ["Afghanistan", "Albania", "Algeria", "United States", "Can
   };
 
   const clearFilters = () => {
-    const newParams: Record<string, string> = {};
-    newParams.page = '1';
-    newParams.pageSize = searchParams.pageSize || '16'; // retain page size
-    navigate({ search: () => newParams });
+    navigate({ search: () => { } });
   };
 
 
@@ -98,6 +97,7 @@ const country_list = ["Afghanistan", "Albania", "Algeria", "United States", "Can
   });
 
   const params = buildParamsFromSearch(searchParams);
+
 
   const { data, isFetching } = useQuery({
     queryKey: ['movies', params],
@@ -126,6 +126,7 @@ const country_list = ["Afghanistan", "Albania", "Algeria", "United States", "Can
             onClick={clearFilters}
             className="w-7 h-7 p-0 text-white bg-subMain flex-colo"
             title="Clear Filters"
+            disabled={Object.keys(searchParams).length === 0}
           >
             <RefreshCw className="w-4 h-4" />
           </Button>
@@ -133,7 +134,7 @@ const country_list = ["Afghanistan", "Albania", "Algeria", "United States", "Can
           <p className="text-xs">Page {pageIndex + 1}</p>
 
           <Button
-            onClick={() => updateParam('page', String(pageIndex))}
+            onClick={() => updateParam('page', pageIndex.toString())}
             disabled={!canPrev}
             className={cn(
               'w-7 h-7 p-0 text-white flex-colo',
@@ -176,7 +177,7 @@ const country_list = ["Afghanistan", "Albania", "Algeria", "United States", "Can
                 </SelectTrigger>
                 <SelectContent>
                   {f.items.map(item => (
-                    <SelectItem key={item} value={item} className="text-xs">
+                    <SelectItem key={item} value={item?.toString()} className="text-xs">
                       {item}
                     </SelectItem>
                   ))}
@@ -186,7 +187,7 @@ const country_list = ["Afghanistan", "Albania", "Algeria", "United States", "Can
           ))}
         </div>
         <div className='mx-3'>
-        <Input
+          <Input
             placeholder="Find in page ..."
             startIcon={Search}
             className='grid-cols-4'
@@ -196,7 +197,7 @@ const country_list = ["Afghanistan", "Albania", "Algeria", "United States", "Can
             }}
           />
         </div>
-       
+
       </div>
 
       {/** Movies Grid */}
