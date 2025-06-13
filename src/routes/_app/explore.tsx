@@ -4,7 +4,7 @@ import { createFileRoute, useSearch } from '@tanstack/react-router';
 import Movie from './-components/Movie';
 import Skeleton from 'react-loading-skeleton';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ArrowRight, RefreshCw } from 'lucide-react';
+import { ArrowLeft, ArrowRight, RefreshCw, Search } from 'lucide-react';
 import { useState } from 'react';
 import { FiFilter } from 'react-icons/fi';
 import { Label } from '@/components/ui/label';
@@ -16,6 +16,7 @@ import {
   SelectItem,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
 
 export const Route = createFileRoute('/_app/explore')({
   component: RouteComponent,
@@ -159,7 +160,7 @@ function RouteComponent() {
             : 'opacity-0 max-h-0 invisible'
         )}
       >
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-8 rounded border-border text-muted-foreground p-3">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-1 lg:gap-8 rounded border-border text-muted-foreground px-3">
           {filters.map((f, i) => (
             <div key={i} className="flex flex-col gap-1">
               <Label className="uppercase text-xs">{f.label}</Label>
@@ -178,10 +179,22 @@ function RouteComponent() {
             </div>
           ))}
         </div>
+        <div className='mx-3'>
+        <Input
+            placeholder="Find in page"
+            startIcon={Search}
+            className='grid-cols-4'
+            onInput={(e) => {
+              const { value } = e.target as HTMLInputElement;
+              updateParam("search", value);
+            }}
+          />
+        </div>
+       
       </div>
 
       {/** Movies Grid */}
-      <div className="grid mt-3 grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 overflow-hidden">
+      <div className="grid mt-3 grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap- overflow-hidden">
         {isFetching
           ? Array(pageSize)
             .fill(null)
