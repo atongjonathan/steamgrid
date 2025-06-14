@@ -1,8 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import Banner from './-components/Banner/Banner'
 import SgSlider from './-components/SGSlider';
-import InfoBanner from './-components/InfoBanner';
-import Categories from './-components/Categories';
 
 export const Route = createFileRoute('/_app/')({
   component: RouteComponent,
