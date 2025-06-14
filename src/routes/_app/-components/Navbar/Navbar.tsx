@@ -16,6 +16,8 @@ import MoreNavItem from "./MoreNavItem";
 import { ArrowLeft, Bookmark, Filter, History, Settings } from "lucide-react";
 import InputSearch from "./InputSearch";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import Categories from "../../index/-components/Categories";
+import InfoBanner from "../../index/-components/InfoBanner";
 
 export const UserMenuItem: FC<{ baseClasses: string }> = ({ baseClasses }) => {
 
@@ -206,9 +208,15 @@ const Navbar = () => {
 
   return (
     <div className="relative">
-      <NavigationMenu className="w-full px-5 fixed z-50 top-0 bg-background/90">
-        <MobileNavbar />
-        <LargeNavbar />
+      <NavigationMenu className="w-full px-5 fixed z-50 top-0 bg-background/90 flex flex-col">
+        <div className="w-full">
+          <MobileNavbar />
+          <LargeNavbar />
+        </div>
+      <InfoBanner />
+        <>
+          <Categories />
+        </>
       </NavigationMenu>
     </div>
   );

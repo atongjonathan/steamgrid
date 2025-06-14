@@ -51,8 +51,6 @@ function RouteComponent() {
 
   return (
     <>
-      <InfoBanner />
-      <Categories />
       <Banner />
       <div className="pl-6 pr-2">
         {sliders.map(({ title, params }) => (
