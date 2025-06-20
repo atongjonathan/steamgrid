@@ -3,7 +3,7 @@ import { genres } from '../../explore'
 
 const Categories = () => {
     const { pathname } = useLocation()
-    return pathname !== "/explore" && (
+    return pathname == "/" && (
         <div
             className="w-full flex items-center gap-3 overflow-x-scroll scrollbar-hide py-2 px-1 hide-scrollbar-lg"
         >
