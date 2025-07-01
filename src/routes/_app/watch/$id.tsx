@@ -1,9 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import MovieWatchPage from "./-components/devin";
 
-export const Route = createFileRoute('/_app/watch/$id')({
+export const Route = createFileRoute("/_app/watch/$id")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/_app/watch_$id/"!</div>
+  return <MovieWatchPage />;
 }
