@@ -101,7 +101,7 @@ export type Movie = {
   };
   rating_star: number;
   rating_count: number;
-  reviews: {
+  reviews?: {
     id: number | null;
     author: string;
     authorUrl: string | null;

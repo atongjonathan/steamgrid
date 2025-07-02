@@ -100,7 +100,7 @@ export default function MovieWatchPage() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-semibold">
-                  {movieData?.reviews.length} Comments
+                  {movieData?.reviews?.length} Comments
                 </h2>
               </div>
 
@@ -122,7 +122,7 @@ export default function MovieWatchPage() {
 
               {/* Comments List */}
               <div className="space-y-6">
-                {movieData?.reviews.map((comment, idx) => (
+                {movieData?.reviews?.map((comment, idx) => (
                   <div key={idx} className="flex gap-3">
                     <Avatar className="w-8 h-8">
                       <AvatarImage src={comment.authorUrl ?? ""} />
@@ -344,7 +344,7 @@ export default function MovieWatchPage() {
           {/* Mobile Comments Section */}
           <div className="space-y-4">
             <h2 className="text-lg font-semibold">
-              {movieData?.reviews.length} Comments
+              {movieData?.reviews?.length} Comments
             </h2>
 
             {/* Add Comment - Mobile */}
@@ -365,7 +365,7 @@ export default function MovieWatchPage() {
 
             {/* Mobile Comments List */}
             <div className="space-y-4">
-              {movieData?.reviews.map((comment, idx) => (
+              {movieData?.reviews?.map((comment, idx) => (
                 <div key={idx} className="flex gap-3">
                   <Avatar className="w-8 h-8">
                     <AvatarImage src={comment.authorUrl ?? ""} />
