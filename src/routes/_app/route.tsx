@@ -16,7 +16,7 @@ function RouteComponent() {
         <Navbar />
 
         <MobileFooterNav />
-        <div className={atHome ? `mt-36 mt-28` : ""}>
+        <div className={atHome ? `lg:mt-36 mt-28` : ""}>
           <Outlet />
         </div>
       </div>
