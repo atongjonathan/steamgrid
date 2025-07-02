@@ -1,4 +1,9 @@
-import { Link, useLocation } from "@tanstack/react-router";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useRouter,
+} from "@tanstack/react-router";
 import logo from "../../../../assets/logo.png";
 import {
   NavigationMenu,
@@ -23,6 +28,8 @@ import {
 } from "@/components/ui/tooltip";
 import Categories from "../../index/-components/Categories";
 import InfoBanner from "../../index/-components/InfoBanner";
+import { Button } from "@/components/ui/button";
+import { useCanGoBack } from "@tanstack/react-router";
 
 export const UserMenuItem: FC<{ baseClasses: string }> = ({ baseClasses }) => {
   const [isLoginOpen, setisLoginOpen] = useState(false);
@@ -134,17 +141,25 @@ const MobileNavbar = () => {
   const baseClasses =
     "border py-2 px-3 rounded-lg transitions flex gap-2 items-center [&.active]:text-subMain";
   const { pathname } = useLocation();
+  const router = useRouter();
+  const navigate = useNavigate();
+  const canGoBack = useCanGoBack();
+  const handleClick = () => {
+    if (canGoBack) router.history.back();
+    else navigate({ to: "/" });
+  };
 
   if (pathname === "/search")
     return (
       <div className="md:hidden flex items-center gap-2 w-full bg-background text-foreground">
         {/* Back button */}
-        <Link
-          to="/"
+        <Button
+          onClick={handleClick}
+          variant="ghost"
           className="p-2 text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft size={20} />
-        </Link>
+        </Button>
 
         {/* Search input */}
         <InputSearch />
