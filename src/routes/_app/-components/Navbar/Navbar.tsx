@@ -1,52 +1,52 @@
-import { Link, useLocation, } from "@tanstack/react-router";
-import logo from "../../../../assets/logo.png"
+import { Link, useLocation } from "@tanstack/react-router";
+import logo from "../../../../assets/logo.png";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 import clsx from "clsx";
 import { useAuth } from "@/components/context/AuthContext";
 import { useState, type FC } from "react";
 import Login from "@/components/modals/Login";
 import SignUp from "@/components/modals/SignUp";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import MoreNavItem from "./MoreNavItem";
 import { ArrowLeft, Bookmark, Filter, History, Settings } from "lucide-react";
 import InputSearch from "./InputSearch";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import Categories from "../../index/-components/Categories";
 import InfoBanner from "../../index/-components/InfoBanner";
 
 export const UserMenuItem: FC<{ baseClasses: string }> = ({ baseClasses }) => {
-
   const [isLoginOpen, setisLoginOpen] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
-  const loginProps = { isLoginOpen, setisLoginOpen, setIsSignUpOpen }
-  const signUpProps = { isSignUpOpen, setIsSignUpOpen, setisLoginOpen }
-
-
+  const loginProps = { isLoginOpen, setisLoginOpen, setIsSignUpOpen };
+  const signUpProps = { isSignUpOpen, setIsSignUpOpen, setisLoginOpen };
 
   const linkClass = clsx(
     "bg-main border-subMain hover:bg-subMain",
     baseClasses,
     isLoginOpen ? "text-subMain bg-main hover:bg-main" : ""
-
   );
   const signUpClass = clsx(
     `bg-subMain hover:bg-main [&.active]:text-white hover:text-white hover:border hover:border-subMain`,
     baseClasses,
     isSignUpOpen ? "text-subMain bg-main !border !border-subMain" : ""
-
   );
 
-  const { isAuthenticated, user } = useAuth()
+  const { isAuthenticated, user } = useAuth();
   return (
     <>
-      {
-        isAuthenticated ? <NavigationMenuItem>
+      {isAuthenticated ? (
+        <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link to="/profile">
               <Avatar title={user?.username}>
@@ -58,26 +58,23 @@ export const UserMenuItem: FC<{ baseClasses: string }> = ({ baseClasses }) => {
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
-          : (
-            <>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Login loginClass={linkClass} loginProps={loginProps} />
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <SignUp loginClass={signUpClass} signUpProps={signUpProps} />
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </>
-
-          )
-      }
-
+      ) : (
+        <>
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Login loginClass={linkClass} loginProps={loginProps} />
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <SignUp loginClass={signUpClass} signUpProps={signUpProps} />
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </>
+      )}
     </>
-  )
-}
+  );
+};
 export const navItems = [
   { to: "/history", label: "History", icon: History },
   { to: "/watchlist", label: "Saved", icon: Bookmark },
@@ -85,14 +82,12 @@ export const navItems = [
 ];
 
 const LargeNavbar = () => {
-  const baseClasses = "border py-2 px-3 rounded-lg transitions flex gap-2 items-center [&.active]:text-subMain hover:[&.active]:bg-main";
+  const baseClasses =
+    "border py-2 px-3 rounded-lg transitions flex gap-2 items-center [&.active]:text-subMain hover:[&.active]:bg-main";
   const linkClass = clsx(
     "bg-main border-subMain hover:bg-subMain",
     baseClasses
   );
-
-
-
 
   return (
     <div className="hidden md:flex px-7 py-3 justify-between items-center min-h-7 w-full">
@@ -108,18 +103,13 @@ const LargeNavbar = () => {
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
-        <NavigationMenuItem >
+        <NavigationMenuItem>
           <NavigationMenuLink>
             <InputSearch />
           </NavigationMenuLink>
         </NavigationMenuItem>
-
       </NavigationMenuList>
       {/* Logo */}
-
-
-
-
 
       {/* Menus for larger screens */}
       <NavigationMenuList>
@@ -136,35 +126,37 @@ const LargeNavbar = () => {
         <UserMenuItem baseClasses={baseClasses} />
         <MoreNavItem />
       </NavigationMenuList>
-
-
     </div>
-  )
-}
+  );
+};
 
 const MobileNavbar = () => {
-
-  const baseClasses = "border py-2 px-3 rounded-lg transitions flex gap-2 items-center [&.active]:text-subMain";
-  const { pathname } = useLocation()
-
+  const baseClasses =
+    "border py-2 px-3 rounded-lg transitions flex gap-2 items-center [&.active]:text-subMain";
+  const { pathname } = useLocation();
 
   if (pathname === "/search")
     return (
       <div className="md:hidden flex items-center gap-2 w-full bg-background text-foreground">
         {/* Back button */}
-        <Link to="/" className="p-2 text-muted-foreground hover:text-foreground">
+        <Link
+          to="/"
+          className="p-2 text-muted-foreground hover:text-foreground"
+        >
           <ArrowLeft size={20} />
         </Link>
 
         {/* Search input */}
         <InputSearch />
 
-
         {/* Filter button */}
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link to="/explore" className="p-2 text-muted-foreground hover:text-foreground">
+              <Link
+                to="/explore"
+                className="p-2 text-muted-foreground hover:text-foreground"
+              >
                 <Filter size={20} />
               </Link>
             </TooltipTrigger>
@@ -174,15 +166,12 @@ const MobileNavbar = () => {
           </Tooltip>
         </TooltipProvider>
       </div>
-    )
-
-
+    );
 
   return (
-
     <div className="md:hidden flex justify-between text-text text-sm gap-3">
       <NavigationMenuList className="w-[90vw]">
-        <NavigationMenu >
+        <NavigationMenu>
           <NavigationMenuLink asChild>
             <Link to="/" className="flex items-center justify-center">
               <img
@@ -197,14 +186,11 @@ const MobileNavbar = () => {
         <UserMenuItem baseClasses={baseClasses} />
         <MoreNavItem />
       </NavigationMenuList>
-
-
     </div>
-
-  )
-}
+  );
+};
 const Navbar = () => {
-
+  const { pathname } = useLocation();
 
   return (
     <div className="relative">
@@ -213,10 +199,8 @@ const Navbar = () => {
           <MobileNavbar />
           <LargeNavbar />
         </div>
-      <InfoBanner />
-        <>
-          <Categories />
-        </>
+        <InfoBanner />
+        {pathname === "/" && <Categories />}
       </NavigationMenu>
     </div>
   );

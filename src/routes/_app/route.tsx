@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_app")({
 
 function RouteComponent() {
   const { pathname } = useLocation();
-  const atExplore = pathname === "/explore" || pathname === "/watch";
+  const atHome = pathname === "/";
 
   return (
     <>
@@ -16,9 +16,7 @@ function RouteComponent() {
         <Navbar />
 
         <MobileFooterNav />
-        <div
-          className={`lg:${atExplore ? `mt-20` : "mt-36"} md:${atExplore ? `[120px]` : "36"} ${atExplore ? `mt-14` : "mt-4"}`}
-        >
+        <div className={atHome ? `mt-36 mt-28` : ""}>
           <Outlet />
         </div>
       </div>
