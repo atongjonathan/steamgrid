@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import EmptyState from "./-components/EmptyState";
 
 export const Route = createFileRoute("/_app/explore")({
   component: RouteComponent,
@@ -50,9 +51,8 @@ function RouteComponent() {
   const searchParams = useSearch({ strict: false }) as Record<string, string>;
   const navigate = Route.useNavigate();
 
-  console.log(searchParams.filters);
-
   const [display, setDisplay] = useState(searchParams.filters ? true : false);
+  const [search, setSearch] = useState(searchParams.search);
 
   const pageIndex = parseInt(searchParams.page || "1", 10) - 1;
   const pageSize = parseInt(searchParams.pageSize || "16", 10);
@@ -137,6 +137,7 @@ function RouteComponent() {
 
   const clearFilters = () => {
     navigate({ search: () => {} });
+    setSearch("");
   };
 
   const buildParamsFromSearch = (sp: Record<string, string>): Params => ({
@@ -257,8 +258,10 @@ function RouteComponent() {
             placeholder="Find in page ..."
             startIcon={Search}
             className="grid-cols-4"
+            value={search}
             onInput={(e) => {
               const { value } = e.target as HTMLInputElement;
+              setSearch(value);
               updateParam("search", value);
             }}
           />
@@ -281,6 +284,7 @@ function RouteComponent() {
               <Movie key={idx} movie={movie} />
             ))}
       </div>
+      {data?.count === 0 && <EmptyState />}
     </div>
   );
 }
