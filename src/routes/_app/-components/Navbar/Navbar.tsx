@@ -170,6 +170,7 @@ const MobileNavbar = () => {
             <TooltipTrigger asChild>
               <Link
                 to="/explore"
+                search={{ filters: true }}
                 className="p-2 text-muted-foreground hover:text-foreground"
               >
                 <Filter size={20} />

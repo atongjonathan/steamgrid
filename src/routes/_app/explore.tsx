@@ -49,7 +49,10 @@ export const genres = [
 function RouteComponent() {
   const searchParams = useSearch({ strict: false }) as Record<string, string>;
   const navigate = Route.useNavigate();
-  const [display, setDisplay] = useState(false);
+
+  console.log(searchParams.filters);
+
+  const [display, setDisplay] = useState(searchParams.filters ? true : false);
 
   const pageIndex = parseInt(searchParams.page || "1", 10) - 1;
   const pageSize = parseInt(searchParams.pageSize || "16", 10);
@@ -168,7 +171,12 @@ function RouteComponent() {
 
         <div className="flex items-center gap-2 px-2">
           <Button
-            onClick={() => setDisplay((v) => !v)}
+            onClick={() =>
+              setDisplay((v) => {
+                updateParam("filters", `${!v}`);
+                return !v;
+              })
+            }
             className="w-7 h-7 p-0 text-white bg-subMain flex-colo"
           >
             <FiFilter className="w-4 h-4" />
