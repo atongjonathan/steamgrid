@@ -22,21 +22,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useQuery } from "@tanstack/react-query";
-import { getMovie } from "@/api";
-import { useParams } from "@tanstack/react-router";
+import { Route } from "../$id";
 
 export default function MovieWatchPage() {
   const [expandedComments, setExpandedComments] = React.useState<Set<string>>(
     new Set()
   );
-  const { id } = useParams({} as any);
 
-  const { data } = useQuery({
-    queryKey: ["movie", id],
-    queryFn: () => getMovie(id),
-  });
-  const movieData = data;
+  const movieData = Route.useLoaderData();
   const toggleCommentExpansion = (commentId: string) => {
     const newExpanded = new Set(expandedComments);
     if (newExpanded.has(commentId)) {

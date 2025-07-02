@@ -1,30 +1,16 @@
 import { Autoplay, EffectFade } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Skeleton from 'react-loading-skeleton'
-import { useQuery } from "@tanstack/react-query";
 import BannerItem from "./BannerItem";
-import { getTrending } from "@/api";
 import "swiper/css";
 import "swiper/css/effect-fade";
+import { Route } from "../../route";
 
 const Banner = () => {
-
-  const { isLoading, data } = useQuery({
-    queryKey: ["bannerQuery"],
-    queryFn: getTrending
-  })
-
-  let movies = data?.results
-
-
-
-
-
-
+  let movies = Route.useLoaderData();
 
   return (
     <>
-      {
+      {/* {
         isLoading ?
           <div className="relative w-full">
             <div className="relative h-96  py-10 overflow-hidden bg-dry z-10 ">
@@ -41,39 +27,33 @@ const Banner = () => {
               </div>
             </div>
           </div>
-          :
-          <div className="relative w-full">
-
-            <Swiper
-              className="w-full  h-96  bg-dry"
-              slidesPerView={1}
-              resistanceRatio={0.1}
-              loop
-              direction="horizontal"
-              speed={1000}
-              grabCursor
-              keyboard
-              modules={[Autoplay, EffectFade]}
-              autoplay={{
-                delay: 10000,
-                disableOnInteraction: true,
-              }}
-            >
-
-              {
-                movies?.map((movie, idx) => (
-                  <SwiperSlide key={idx} className="relative overflow-hidden">
-                    <BannerItem movie={movie} />
-                  </SwiperSlide>
-                ))}
-            </Swiper>
-            {/* <Notifier movies={movies}/> */}
-          </div>
-      }
-
+          : */}
+      <div className="relative w-full">
+        <Swiper
+          className="w-full  h-96  bg-dry"
+          slidesPerView={1}
+          resistanceRatio={0.1}
+          loop
+          direction="horizontal"
+          speed={1000}
+          grabCursor
+          keyboard
+          modules={[Autoplay, EffectFade]}
+          autoplay={{
+            delay: 10000,
+            disableOnInteraction: true,
+          }}
+        >
+          {movies?.map((movie, idx) => (
+            <SwiperSlide key={idx} className="relative overflow-hidden">
+              <BannerItem movie={movie} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        {/* <Notifier movies={movies}/> */}
+      </div>
+      {/* } */}
     </>
-
-
   );
 };
 
