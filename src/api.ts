@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { getAuthState } from "./components/context/AuthContext";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
-const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY
+const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const api = axios.create({
   baseURL: API_BASE,
 });
@@ -111,7 +111,7 @@ export type Movie = {
     stars: number;
     heading: string;
     content: string;
-    helpfulNess: {
+    helpfulNess?: {
       votes: number;
       votedAsHelpful: number;
       votedAsHelpfulPercentage: number;
@@ -247,13 +247,15 @@ export const getMovie = async (id: string | number) => {
   return (await api.get(`/movies/` + id)).data as Movie;
 };
 
-export const getCast = async (tmdb_id:string) => {
-  const res = await fetch(`https://api.themoviedb.org/3/movie/${tmdb_id}/credits?api_key=${TMDB_API_KEY}`, {
-
-      "method": "GET",
-      "mode": "cors",
-      "credentials": "omit"
-  })
-  let data = await res.json()
-  return data.cast as Record<string, any>[]
-}
+export const getCast = async (tmdb_id: string) => {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${tmdb_id}/credits?api_key=${TMDB_API_KEY}`,
+    {
+      method: "GET",
+      mode: "cors",
+      credentials: "omit",
+    }
+  );
+  let data = await res.json();
+  return data.cast as Record<string, any>[];
+};

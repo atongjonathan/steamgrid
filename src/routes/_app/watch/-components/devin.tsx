@@ -15,7 +15,6 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -24,6 +23,12 @@ import { Route } from "../$id";
 import MovieInfo from "./MovieInfo";
 import { SearchCardContents } from "../../-components/Navbar/InputSearch";
 import Characters from "./Characters";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
 
 export default function MovieWatchPage() {
   const [expandedComments, setExpandedComments] = React.useState<Set<string>>(
@@ -94,7 +99,14 @@ export default function MovieWatchPage() {
                 </div>
               </div>
 
-              <p className="text-sm">{movieData?.plot}</p>
+              <Accordion type="single" collapsible>
+                <AccordionItem value="plot">
+                  <AccordionTrigger>Plot</AccordionTrigger>
+                  <AccordionContent>
+                    <p>{movieData.plot}</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </div>
             <Characters tmdb_id={tmdb_id} />
             <Separator />
@@ -129,7 +141,9 @@ export default function MovieWatchPage() {
                   <div key={idx} className="flex gap-3">
                     <Avatar className="w-8 h-8">
                       <AvatarImage src={comment.authorUrl ?? ""} />
-                      <AvatarFallback>{comment.author[0]}</AvatarFallback>
+                      {comment.author?.length > 0 && (
+                        <AvatarFallback>{comment.author[0]}</AvatarFallback>
+                      )}
                     </Avatar>
                     <div className="flex-1 space-y-2">
                       <div className="flex items-center gap-2 text-sm">
@@ -175,7 +189,7 @@ export default function MovieWatchPage() {
                           className="p-0 h-auto"
                         >
                           <ThumbsUp className="h-3 w-3 mr-1" />
-                          {comment.helpfulNess.votedAsHelpful}
+                          {comment.helpfulNess?.votedAsHelpful}
                         </Button>
                         <Button
                           variant="ghost"
@@ -183,13 +197,6 @@ export default function MovieWatchPage() {
                           className="p-0 h-auto"
                         >
                           <ThumbsDown className="h-3 w-3 mr-1" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="p-0 h-auto"
-                        >
-                          Reply
                         </Button>
                       </div>
                     </div>
@@ -222,16 +229,6 @@ export default function MovieWatchPage() {
                 </div> */}
                 <MovieInfo movie={movieData} />
                 <Separator />
-                <div className="space-y-2">
-                  <h4 className="font-medium">Genres</h4>
-                  <div className="flex flex-wrap gap-1">
-                    {movieData?.genre.map((g) => (
-                      <Badge key={g} variant="secondary" className="text-xs">
-                        {g}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
               </CardContent>
             </Card>
             <SearchCardContents />
@@ -288,16 +285,15 @@ export default function MovieWatchPage() {
             </SheetTrigger>
             <SheetContent side="bottom" className="h-[80vh]">
               <SheetHeader>
-                <SheetTitle>Movie Details</SheetTitle>
-                <SheetDescription>
+                <SheetTitle>{movieData.title}</SheetTitle>
+                {/* <SheetDescription>
                   Additional information about {movieData?.title}
-                </SheetDescription>
+                </SheetDescription> */}
               </SheetHeader>
               <MovieInfo movie={movieData} />
-
             </SheetContent>
           </Sheet>
-
+          <Characters tmdb_id={tmdb_id} />
           <Separator />
 
           {/* Mobile Comments Section */}
@@ -328,7 +324,9 @@ export default function MovieWatchPage() {
                 <div key={idx} className="flex gap-3">
                   <Avatar className="w-8 h-8">
                     <AvatarImage src={comment.authorUrl ?? ""} />
-                    <AvatarFallback>{comment.author[0]}</AvatarFallback>
+                    {comment.author?.length > 0 && (
+                      <AvatarFallback>{comment.author[0]}</AvatarFallback>
+                    )}{" "}
                   </Avatar>
                   <div className="flex-1 space-y-2">
                     <div className="flex flex-col gap-1 text-sm">
@@ -368,13 +366,10 @@ export default function MovieWatchPage() {
                     <div className="flex items-center gap-4 text-sm">
                       <Button variant="ghost" size="sm" className="p-0 h-auto">
                         <ThumbsUp className="h-3 w-3 mr-1" />
-                        {comment.helpfulNess.votedAsHelpful}
+                        {comment.helpfulNess?.votedAsHelpful}
                       </Button>
                       <Button variant="ghost" size="sm" className="p-0 h-auto">
                         <ThumbsDown className="h-3 w-3 mr-1" />
-                      </Button>
-                      <Button variant="ghost" size="sm" className="p-0 h-auto">
-                        Reply
                       </Button>
                     </div>
                   </div>

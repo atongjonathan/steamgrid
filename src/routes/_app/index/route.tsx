@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import Banner from "./-components/Banner/Banner";
 import SgSlider from "./-components/SGSlider";
 import { getTrending } from "@/api";
+import "swiper/css";
 
 export const Route = createFileRoute("/_app/")({
   component: RouteComponent,
