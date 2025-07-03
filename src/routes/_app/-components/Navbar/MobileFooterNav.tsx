@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button"
-import { Link } from "@tanstack/react-router"
-import { navItems } from "./Navbar"
-
+import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
+import { navItems } from "./Navbar";
 
 const Hover =
-  "transitions text-2xl flex-colo hover:bg-white hover:text-main text-white rounded-md px-4 py-3 h-max [&.active]:text-subMain "
+  "transitions text-2xl flex-colo hover:bg-white hover:text-main text-white rounded-md px-4 py-3 h-max [&.active]:text-subMain ";
 
 const MobileFooterNav = () => {
   return (
@@ -26,7 +25,7 @@ const MobileFooterNav = () => {
         ))}
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default MobileFooterNav
+export default MobileFooterNav;

@@ -12,7 +12,7 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="bg-main text-white relative min-h-[95vh] lg:min-h-[100vh]">
+      <div className="bg-main text-white relative min-h-[95vh] lg:min-h-[100vh] pb-20 lg:pb-0">
         <Navbar />
 
         <MobileFooterNav />

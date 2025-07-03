@@ -29,6 +29,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/accordion";
+import { Comment } from "./Comment";
 
 export default function MovieWatchPage() {
   const [expandedComments, setExpandedComments] = React.useState<Set<string>>(
@@ -117,91 +118,6 @@ export default function MovieWatchPage() {
                 <h2 className="text-xl font-semibold">
                   {movieData?.reviews?.length} Comments
                 </h2>
-              </div>
-
-              {/* Add Comment */}
-              <div className="flex gap-3">
-                <Avatar className="w-8 h-8">
-                  <AvatarFallback>U</AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                  <Textarea
-                    placeholder="Add a comment..."
-                    className="min-h-[80px]"
-                  />
-                  <div className="flex justify-end mt-2">
-                    <Button size="sm">Comment</Button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Comments List */}
-              <div className="space-y-6">
-                {movieData?.reviews?.map((comment, idx) => (
-                  <div key={idx} className="flex gap-3">
-                    <Avatar className="w-8 h-8">
-                      <AvatarImage src={comment.authorUrl ?? ""} />
-                      {comment.author?.length > 0 && (
-                        <AvatarFallback>{comment.author[0]}</AvatarFallback>
-                      )}
-                    </Avatar>
-                    <div className="flex-1 space-y-2">
-                      <div className="flex items-center gap-2 text-sm">
-                        <span className="font-medium text-muted-foreground">{`@${comment.author}`}</span>
-
-                        <span className="text-muted-foreground">•</span>
-                        <span className="text-muted-foreground">
-                          {comment.date}
-                        </span>
-                      </div>
-                      <h4 className="font-medium">{comment.heading}</h4>
-                      <div className="text-sm">
-                        <p
-                          className={
-                            expandedComments.has(comment.id?.toString() ?? "")
-                              ? ""
-                              : "line-clamp-3"
-                          }
-                        >
-                          {comment.content}
-                        </p>
-                        {comment.content?.length > 200 && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="p-0 h-auto mt-1 font-normal text-xs"
-                            onClick={() =>
-                              toggleCommentExpansion(
-                                comment.id?.toString() ?? ""
-                              )
-                            }
-                          >
-                            {expandedComments.has(comment.id?.toString() ?? "")
-                              ? "Show less"
-                              : "Read more"}
-                          </Button>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-4 text-sm">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="p-0 h-auto"
-                        >
-                          <ThumbsUp className="h-3 w-3 mr-1" />
-                          {comment.helpfulNess?.votedAsHelpful}
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="p-0 h-auto"
-                        >
-                          <ThumbsDown className="h-3 w-3 mr-1" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
@@ -298,84 +214,59 @@ export default function MovieWatchPage() {
 
           {/* Mobile Comments Section */}
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold">
-              {movieData?.reviews?.length} Comments
-            </h2>
-
-            {/* Add Comment - Mobile */}
-            <div className="flex gap-3">
-              <Avatar className="w-8 h-8">
-                <AvatarFallback>U</AvatarFallback>
-              </Avatar>
-              <div className="flex-1">
-                <Textarea
-                  placeholder="Add a comment..."
-                  className="min-h-[60px] text-sm"
-                />
-                <div className="flex justify-end mt-2">
-                  <Button size="sm">Comment</Button>
-                </div>
-              </div>
-            </div>
-
-            {/* Mobile Comments List */}
-            <div className="space-y-4">
-              {movieData?.reviews?.map((comment, idx) => (
-                <div key={idx} className="flex gap-3">
-                  <Avatar className="w-8 h-8">
-                    <AvatarImage src={comment.authorUrl ?? ""} />
-                    {comment.author?.length > 0 && (
-                      <AvatarFallback>{comment.author[0]}</AvatarFallback>
-                    )}{" "}
-                  </Avatar>
-                  <div className="flex-1 space-y-2">
-                    <div className="flex flex-col gap-1 text-sm">
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium text-muted-foreground">{`@${comment.author}`}</span>
-                        <span className="text-muted-foreground text-xs">
-                          {comment.date}
-                        </span>
-                      </div>
-                    </div>
-                    <h4 className="font-medium text-sm">{comment.heading}</h4>
-                    <div className="text-sm ">
-                      <p
-                        className={
-                          expandedComments.has(comment.id?.toString() ?? "")
-                            ? "text-xs"
-                            : "line-clamp-3 text-xs"
-                        }
-                      >
-                        {comment.content}
-                      </p>
-                      {comment.content?.length > 200 && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="p-0 h-auto mt-1 font-normal text-xs text-white"
-                          onClick={() =>
-                            toggleCommentExpansion(comment.id?.toString() ?? "")
-                          }
-                        >
-                          {expandedComments.has(comment.id?.toString() ?? "")
-                            ? "Show less"
-                            : "Read more"}
-                        </Button>
+            <Sheet>
+              <SheetTrigger asChild className="m-0!">
+                <div>
+                  <h2 className="text-lg font-semibold">
+                    {movieData?.reviews?.length} Comments
+                  </h2>
+                  {(movieData?.reviews?.length ?? 0) > 0 && (
+                    <Comment
+                      comment={movieData?.reviews![0]}
+                      toggleCommentExpansion={toggleCommentExpansion}
+                      expanded={expandedComments.has(
+                        movieData?.reviews![0].id?.toString() ?? ""
                       )}
-                    </div>
-                    <div className="flex items-center gap-4 text-sm">
-                      <Button variant="ghost" size="sm" className="p-0 h-auto">
-                        <ThumbsUp className="h-3 w-3 mr-1" />
-                        {comment.helpfulNess?.votedAsHelpful}
-                      </Button>
-                      <Button variant="ghost" size="sm" className="p-0 h-auto">
-                        <ThumbsDown className="h-3 w-3 mr-1" />
-                      </Button>
+                    />
+                  )}
+                </div>
+              </SheetTrigger>
+              <SheetContent side="bottom" className="h-[80vh] overflow-scroll">
+                <SheetHeader>
+                  <h2 className="text-lg font-semibold">
+                    {movieData?.reviews?.length} Comments
+                  </h2>
+                </SheetHeader>
+                {/* Add Comment - Mobile */}
+                <div className="flex gap-3">
+                  <Avatar className="w-8 h-8">
+                    <AvatarFallback>U</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <Textarea
+                      placeholder="Add a comment..."
+                      className="min-h-[60px] text-sm"
+                    />
+                    <div className="flex justify-end mt-2">
+                      <Button size="sm">Comment</Button>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+                {/* Mobile Comments List */}
+                <div className="space-y-4">
+                  {movieData?.reviews?.map((comment, idx) => (
+                    <Comment
+                      key={idx}
+                      comment={comment}
+                      toggleCommentExpansion={toggleCommentExpansion}
+                      expanded={expandedComments.has(
+                        comment.id?.toString() ?? ""
+                      )}
+                    />
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>

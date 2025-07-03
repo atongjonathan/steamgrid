@@ -69,6 +69,23 @@ export type MoviesResponse = Pagination & {
   results: MinMovie[];
 };
 
+export type CommentT = {
+  id: number | null;
+  author: string;
+  authorUrl: string | null;
+  user_api_path: string | null;
+  date: string;
+  stars: number;
+  heading: string;
+  content: string;
+  helpfulNess?: {
+    votes: number;
+    votedAsHelpful: number;
+    votedAsHelpfulPercentage: number;
+  };
+  reviewLink: string;
+};
+
 export type Movie = {
   id: number;
   title: string;
@@ -102,22 +119,7 @@ export type Movie = {
   };
   rating_star: number;
   rating_count: number;
-  reviews?: {
-    id: number | null;
-    author: string;
-    authorUrl: string | null;
-    user_api_path: string | null;
-    date: string;
-    stars: number;
-    heading: string;
-    content: string;
-    helpfulNess?: {
-      votes: number;
-      votedAsHelpful: number;
-      votedAsHelpfulPercentage: number;
-    };
-    reviewLink: string;
-  }[];
+  reviews?: CommentT[];
   images: string[];
   spokenLanguages: {
     language: string;
