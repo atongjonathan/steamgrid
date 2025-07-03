@@ -14,15 +14,16 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Route } from "../$id";
+import MovieInfo from "./MovieInfo";
+import { SearchCardContents } from "../../-components/Navbar/InputSearch";
+import Characters from "./Characters";
 
 export default function MovieWatchPage() {
   const [expandedComments, setExpandedComments] = React.useState<Set<string>>(
@@ -30,6 +31,8 @@ export default function MovieWatchPage() {
   );
 
   const movieData = Route.useLoaderData();
+  const split = movieData?.link?.split("/") || [];
+  const tmdb_id = split[split.length - 1];
   const toggleCommentExpansion = (commentId: string) => {
     const newExpanded = new Set(expandedComments);
     if (newExpanded.has(commentId)) {
@@ -91,9 +94,9 @@ export default function MovieWatchPage() {
                 </div>
               </div>
 
-              <p className="text-sm line-clamp-2">{movieData?.plot}</p>
+              <p className="text-sm">{movieData?.plot}</p>
             </div>
-
+            <Characters tmdb_id={tmdb_id} />
             <Separator />
 
             {/* Comments Section */}
@@ -203,7 +206,7 @@ export default function MovieWatchPage() {
                 <CardTitle className="text-lg">Movie Details</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2 text-sm">
+                {/* <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="">Year:</span>
                     <span>{movieData?.year}</span>
@@ -216,7 +219,8 @@ export default function MovieWatchPage() {
                     <span className="">Rating:</span>
                     <span>{movieData?.rating_star}</span>
                   </div>
-                </div>
+                </div> */}
+                <MovieInfo movie={movieData} />
                 <Separator />
                 <div className="space-y-2">
                   <h4 className="font-medium">Genres</h4>
@@ -230,6 +234,7 @@ export default function MovieWatchPage() {
                 </div>
               </CardContent>
             </Card>
+            <SearchCardContents />
           </div>
         </div>
 
@@ -288,54 +293,8 @@ export default function MovieWatchPage() {
                   Additional information about {movieData?.title}
                 </SheetDescription>
               </SheetHeader>
-              <div className="mt-6 space-y-4">
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="">Director:</span>
-                    <span>{movieData?.directors.join(",")}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="">Year:</span>
-                    <span>{movieData?.year}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="">Duration:</span>
-                    <span>{movieData?.runtime}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="">Rating:</span>
-                    <span>{movieData?.contentRating}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="">IMDb:</span>
-                    <span>{movieData?.rating_count}/10</span>
-                  </div>
-                </div>
-                <Separator />
-                <div className="space-y-2">
-                  <h4 className="font-medium">Cast</h4>
-                  <p className="text-sm ">{movieData?.actors.join(", ")}</p>
-                </div>
-                <div className="space-y-2">
-                  <h4 className="font-medium">Genres</h4>
-                  <div className="flex flex-wrap gap-1">
-                    {movieData?.genre.map((g) => (
-                      <Badge key={g} variant="secondary" className="text-xs">
-                        {g}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <h4 className="font-medium">Plot</h4>
-                  <p className="text-sm ">{movieData?.plot}</p>
-                </div>
-              </div>
-              <SheetFooter className="mt-6">
-                <SheetClose asChild>
-                  <Button variant="outline">Close</Button>
-                </SheetClose>
-              </SheetFooter>
+              <MovieInfo movie={movieData} />
+
             </SheetContent>
           </Sheet>
 
