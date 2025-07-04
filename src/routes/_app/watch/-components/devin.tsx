@@ -7,7 +7,7 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -32,19 +32,19 @@ import {
 import { Comment } from "./Comment";
 
 export default function MovieWatchPage() {
-  const [expandedComments, setExpandedComments] = React.useState<Set<string>>(
+  const [expandedComments, setExpandedComments] = React.useState<Set<number>>(
     new Set()
   );
 
   const movieData = Route.useLoaderData();
   const split = movieData?.link?.split("/") || [];
   const tmdb_id = split[split.length - 1];
-  const toggleCommentExpansion = (commentId: string) => {
+  const toggleCommentExpansion = (commentIdx: number) => {
     const newExpanded = new Set(expandedComments);
-    if (newExpanded.has(commentId)) {
-      newExpanded.delete(commentId);
+    if (newExpanded.has(commentIdx)) {
+      newExpanded.delete(commentIdx);
     } else {
-      newExpanded.add(commentId);
+      newExpanded.add(commentIdx);
     }
     setExpandedComments(newExpanded);
   };
@@ -55,8 +55,8 @@ export default function MovieWatchPage() {
         <Comment
           key={idx}
           comment={comment}
-          toggleCommentExpansion={toggleCommentExpansion}
-          expanded={expandedComments.has(comment.id?.toString() ?? "")}
+          toggleCommentExpansion={() => toggleCommentExpansion(idx)}
+          expanded={expandedComments.has(idx)}
         />
       ))}
     </div>
@@ -146,7 +146,7 @@ export default function MovieWatchPage() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h2 className="font-semibold">
-                  Comments ({movieData?.reviews?.length})
+                  Comments ({movieData?.reviews?.length ?? 0})
                 </h2>
               </div>
             </div>
@@ -157,24 +157,7 @@ export default function MovieWatchPage() {
           {/* Sidebar - Additional Movie Info */}
           <div className="space-y-4">
             <Card>
-              {/* <CardHeader>
-                <CardTitle className="text-lg">Movie Details</CardTitle>
-              </CardHeader> */}
               <CardContent className="space-y-4">
-                {/* <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="">Year:</span>
-                    <span>{movieData?.year}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="">Duration:</span>
-                    <span>{movieData?.runtime}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="">Rating:</span>
-                    <span>{movieData?.rating_star}</span>
-                  </div>
-                </div> */}
                 <MovieInfo movie={movieData} />
               </CardContent>
             </Card>
@@ -247,44 +230,36 @@ export default function MovieWatchPage() {
           <div className="space-y-4">
             <Sheet>
               <SheetTrigger asChild className="m-0!">
-                <div>
-                  <h2 className="text-lg font-semibold">
-                    {movieData?.reviews?.length} Comments
-                  </h2>
-                  {(movieData?.reviews?.length ?? 0) > 0 && (
-                    <Comment
-                      comment={movieData?.reviews![0]}
-                      toggleCommentExpansion={toggleCommentExpansion}
-                      expanded={expandedComments.has(
-                        movieData?.reviews![0].id?.toString() ?? ""
+                <Card>
+                  <CardHeader>
+                    <h2 className="text-lg font-semibold">
+                      {movieData?.reviews?.length ?? 0} Comments
+                    </h2>
+                  </CardHeader>
+                  <CardContent>
+                    <div>
+                      {(movieData?.reviews?.length ?? 0) > 0 && (
+                        <Comment
+                          comment={movieData?.reviews![0]}
+                          toggleCommentExpansion={() =>
+                            toggleCommentExpansion(0)
+                          }
+                          expanded={expandedComments.has(0)}
+                        />
                       )}
-                    />
-                  )}
-                </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </SheetTrigger>
               <SheetContent side="bottom" className="h-[80vh] overflow-scroll">
                 <SheetHeader>
                   <h2 className="text-lg font-semibold">
-                    {movieData?.reviews?.length} Comments
+                    {movieData?.reviews?.length ?? 0} Comments
                   </h2>
                 </SheetHeader>
                 {/* Add Comment - Mobile */}
-                <div className="flex gap-3">
-                  <Avatar className="w-8 h-8">
-                    <AvatarFallback>U</AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1">
-                    <Textarea
-                      placeholder="Add a comment..."
-                      className="min-h-[60px] text-sm"
-                    />
-                    <div className="flex justify-end mt-2">
-                      <Button size="sm">Comment</Button>
-                    </div>
-                  </div>
-                </div>
-                {/* Mobile Comments List */}
                 <AddComment />
+                {/* Mobile Comments List */}
                 <Comments />
               </SheetContent>
             </Sheet>
