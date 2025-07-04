@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
@@ -48,6 +48,39 @@ export default function MovieWatchPage() {
     }
     setExpandedComments(newExpanded);
   };
+
+  const Comments = () => (
+    <div className="space-y-4">
+      {movieData?.reviews?.map((comment, idx) => (
+        <Comment
+          key={idx}
+          comment={comment}
+          toggleCommentExpansion={toggleCommentExpansion}
+          expanded={expandedComments.has(
+            comment.id?.toString() ?? ""
+          )}
+        />
+      ))}
+    </div>
+  )
+
+  const AddComment = () => (
+    <div className="flex gap-3">
+    <Avatar className="w-8 h-8">
+      <AvatarFallback>U</AvatarFallback>
+    </Avatar>
+    <div className="flex-1">
+      <Textarea
+        placeholder="Add a comment..."
+        className="min-h-[60px] text-sm"
+      />
+      <div className="flex justify-end mt-2">
+        <Button size="sm">Comment</Button>
+      </div>
+    </div>
+  </div>
+
+  )
 
   return (
     <div className="min-h-screen bg-background text-text">
@@ -115,19 +148,21 @@ export default function MovieWatchPage() {
             {/* Comments Section */}
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold">
-                  {movieData?.reviews?.length} Comments
+                <h2 className="font-semibold">
+                  Comments ({movieData?.reviews?.length})
                 </h2>
               </div>
             </div>
+            <AddComment/>
+            <Comments/>
           </div>
 
           {/* Sidebar - Additional Movie Info */}
           <div className="space-y-4">
             <Card>
-              <CardHeader>
+              {/* <CardHeader>
                 <CardTitle className="text-lg">Movie Details</CardTitle>
-              </CardHeader>
+              </CardHeader> */}
               <CardContent className="space-y-4">
                 {/* <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
@@ -144,7 +179,6 @@ export default function MovieWatchPage() {
                   </div>
                 </div> */}
                 <MovieInfo movie={movieData} />
-                <Separator />
               </CardContent>
             </Card>
             <SearchCardContents />
@@ -253,18 +287,8 @@ export default function MovieWatchPage() {
                   </div>
                 </div>
                 {/* Mobile Comments List */}
-                <div className="space-y-4">
-                  {movieData?.reviews?.map((comment, idx) => (
-                    <Comment
-                      key={idx}
-                      comment={comment}
-                      toggleCommentExpansion={toggleCommentExpansion}
-                      expanded={expandedComments.has(
-                        comment.id?.toString() ?? ""
-                      )}
-                    />
-                  ))}
-                </div>
+                <AddComment/>
+                <Comments/>
               </SheetContent>
             </Sheet>
           </div>
@@ -273,3 +297,5 @@ export default function MovieWatchPage() {
     </div>
   );
 }
+
+

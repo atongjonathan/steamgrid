@@ -18,7 +18,7 @@ const Characters = ({ tmdb_id }: { tmdb_id: string }) => {
       <div className="w-full flex justify-between">
         {(data?.length ?? 0) > 0 && (
           <div className="flex sm:gap-8 gap-4 items-center truncate">
-            <h2 className="text-sm font-semibold truncate">
+            <h2 className="font-semibold truncate">
               Cast ({data?.length})
             </h2>
           </div>

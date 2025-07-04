@@ -22,7 +22,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movie }) => {
     <>
       <div className="col-span-4 lg:col-span-1">
         <div className="grid grid-cols-3 lg:grid-cols-2 gap-3">
-          <div className="col-span-1 lg:col-span-2 flex flex-col items-center w-full gap-3 pt-8">
+          <div className="col-span-1 lg:col-span-2 flex flex-col items-center w-full gap-3 pt-8 lg:pt-4">
             <div className="border border-border p-1 rounded overflow-hidden relative h-fit">
               <LazyLoadImage
                 src={movie.poster}
