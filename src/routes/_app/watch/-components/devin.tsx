@@ -7,7 +7,7 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -56,31 +56,28 @@ export default function MovieWatchPage() {
           key={idx}
           comment={comment}
           toggleCommentExpansion={toggleCommentExpansion}
-          expanded={expandedComments.has(
-            comment.id?.toString() ?? ""
-          )}
+          expanded={expandedComments.has(comment.id?.toString() ?? "")}
         />
       ))}
     </div>
-  )
+  );
 
   const AddComment = () => (
     <div className="flex gap-3">
-    <Avatar className="w-8 h-8">
-      <AvatarFallback>U</AvatarFallback>
-    </Avatar>
-    <div className="flex-1">
-      <Textarea
-        placeholder="Add a comment..."
-        className="min-h-[60px] text-sm"
-      />
-      <div className="flex justify-end mt-2">
-        <Button size="sm">Comment</Button>
+      <Avatar className="w-8 h-8">
+        <AvatarFallback>U</AvatarFallback>
+      </Avatar>
+      <div className="flex-1">
+        <Textarea
+          placeholder="Add a comment..."
+          className="min-h-[60px] text-sm"
+        />
+        <div className="flex justify-end mt-2">
+          <Button size="sm">Comment</Button>
+        </div>
       </div>
     </div>
-  </div>
-
-  )
+  );
 
   return (
     <div className="min-h-screen bg-background text-text">
@@ -153,8 +150,8 @@ export default function MovieWatchPage() {
                 </h2>
               </div>
             </div>
-            <AddComment/>
-            <Comments/>
+            <AddComment />
+            <Comments />
           </div>
 
           {/* Sidebar - Additional Movie Info */}
@@ -287,8 +284,8 @@ export default function MovieWatchPage() {
                   </div>
                 </div>
                 {/* Mobile Comments List */}
-                <AddComment/>
-                <Comments/>
+                <AddComment />
+                <Comments />
               </SheetContent>
             </Sheet>
           </div>
@@ -297,5 +294,3 @@ export default function MovieWatchPage() {
     </div>
   );
 }
-
-
