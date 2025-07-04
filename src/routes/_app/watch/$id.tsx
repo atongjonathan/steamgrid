@@ -1,12 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import MovieWatchPage from "./-components/devin";
 import { getMovie } from "@/api";
+import { queryOptions } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/_app/watch/$id")({
   component: RouteComponent,
-  loader: async ({ params }) => {
+  loader: async ({ params, context }) => {
+    const movieQueryOptions = queryOptions({
+      queryKey: ["movie", params.id],
+      queryFn: () => getMovie(params.id),
+    });
+
     try {
-      const data = await getMovie(params.id);
+      const data = await context.queryClient.ensureQueryData(movieQueryOptions);
       return data;
     } catch (error) {
       throw new Error("Failed to load video data."); // You can throw more detailed error objects too

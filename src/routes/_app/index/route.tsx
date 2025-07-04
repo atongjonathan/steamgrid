@@ -1,14 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Banner from "./-components/Banner/Banner";
 import SgSlider from "./-components/SGSlider";
-import { getTrending } from "@/api";
+import { trendingQueryOptions } from "@/api";
 import "swiper/css";
 
 export const Route = createFileRoute("/_app/")({
   component: RouteComponent,
-  loader: async () => {
+  loader: async ({ context }) => {
     try {
-      const data = await getTrending();
+      const data =
+        await context.queryClient.ensureQueryData(trendingQueryOptions);
       return data.results;
     } catch (error) {
       throw new Error("Failed to load data."); // You can throw more detailed error objects too

@@ -1,6 +1,7 @@
 import axios, { type AxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
 import { getAuthState } from "./components/context/AuthContext";
+import { queryOptions } from "@tanstack/react-query";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -261,3 +262,8 @@ export const getCast = async (tmdb_id: string) => {
   let data = await res.json();
   return data.cast as Record<string, any>[];
 };
+
+export const trendingQueryOptions = queryOptions({
+  queryKey: ["trending"],
+  queryFn: getTrending,
+});
