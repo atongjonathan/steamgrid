@@ -13,7 +13,10 @@ export const Comment = ({
   toggleCommentExpansion: (commentId: string) => void;
 }) => {
   return (
-    <div className="flex gap-3">
+    <div
+      className="flex gap-3"
+      onClick={() => toggleCommentExpansion(comment.id?.toString() ?? "")}
+    >
       <Avatar className="w-8 h-8">
         <AvatarImage src={comment.authorUrl ?? ""} />
         {comment.author?.length > 0 && (
