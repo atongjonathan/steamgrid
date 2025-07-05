@@ -14,7 +14,7 @@ export const Comment = ({
 }) => {
   return (
     <div
-      className="flex gap-3"
+      className="flex gap-3 text-text"
       onClick={() => toggleCommentExpansion(comment.id?.toString() ?? "")}
     >
       <Avatar className="w-8 h-8">

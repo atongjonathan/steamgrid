@@ -50,7 +50,7 @@ export default function MovieWatchPage() {
   };
 
   const Comments = () => (
-    <div className="space-y-4">
+    <div className="space-y-4 text-text">
       {movieData?.reviews?.map((comment, idx) => (
         <Comment
           key={idx}
@@ -145,7 +145,7 @@ export default function MovieWatchPage() {
             {/* Comments Section */}
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="font-semibold">
+                <h2 className="font-semibold text-text">
                   Comments ({movieData?.reviews?.length ?? 0})
                 </h2>
               </div>
@@ -232,8 +232,8 @@ export default function MovieWatchPage() {
               <SheetTrigger asChild className="m-0!">
                 <Card>
                   <CardHeader>
-                    <h2 className="text-lg font-semibold">
-                      {movieData?.reviews?.length ?? 0} Comments
+                    <h2 className="font-semibold text-text">
+                      Comments ({movieData?.reviews?.length ?? 0})
                     </h2>
                   </CardHeader>
                   <CardContent>
@@ -253,8 +253,8 @@ export default function MovieWatchPage() {
               </SheetTrigger>
               <SheetContent side="bottom" className="h-[80vh] overflow-scroll">
                 <SheetHeader>
-                  <h2 className="text-lg font-semibold">
-                    {movieData?.reviews?.length ?? 0} Comments
+                  <h2 className="font-semibold text-text">
+                    Comments ({movieData?.reviews?.length ?? 0})
                   </h2>
                 </SheetHeader>
                 {/* Add Comment - Mobile */}
