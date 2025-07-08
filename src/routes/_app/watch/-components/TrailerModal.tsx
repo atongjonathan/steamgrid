@@ -83,5 +83,9 @@ export function TrailerVideo({ trailer }: TrailerVideoProps) {
     },
   };
 
-  return trailer ? <YouTube videoId={trailer.key} opts={opts} /> : null;
+  return trailer ? (
+    <div className="relative pb-[56.25%] w-full">
+      <YouTube videoId={trailer.key} opts={opts} />
+    </div>
+  ) : null;
 }

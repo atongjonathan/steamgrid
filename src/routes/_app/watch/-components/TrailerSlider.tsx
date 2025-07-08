@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
-import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useQuery } from "@tanstack/react-query";
@@ -9,6 +8,7 @@ import { getTrailers, type Movie } from "@/api";
 import { Button } from "@/components/ui/button";
 import type { Swiper as SwiperT } from "swiper/types";
 import TrailerModal from "./TrailerModal";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const TrailerSlider = ({ movie }: { movie: Movie }) => {
   const split = movie?.link?.split("/") || [];
@@ -34,8 +34,6 @@ const TrailerSlider = ({ movie }: { movie: Movie }) => {
     handleSliderChange(swiper.isBeginning, swiper.isEnd);
   };
 
-  console.log(Array.from({ length: 4 }));
-
   return (
     <div>
       {(data?.length ?? 0) > 0 && (
@@ -46,22 +44,19 @@ const TrailerSlider = ({ movie }: { movie: Movie }) => {
           </h2>
           <div className="flex gap-2">
             <Button
-              className={`transition text-sm rounded w-7 h-7 flex items-center justify-center text-white ${
-                startDisabled ? "bg-dry" : "bg-subMain active:bg-dry"
+              className={`transition text-sm rounded w-7 h-7 flex items-center justify-center text-white bg-subMain active:bg-dry"
               }`}
               ref={(node) => setPrevEl(node)}
               disabled={startDisabled}
             >
-              <FaArrowLeft />
+              <ArrowLeft />
             </Button>
             <Button
-              className={`transition text-sm rounded w-7 h-7 flex items-center justify-center text-white ${
-                endDisabled ? "bg-dry" : "bg-subMain active:bg-dry"
-              }`}
+              className={`transition text-sm rounded w-7 h-7 flex items-center justify-center text-white`}
               ref={(node) => setNextEl(node)}
               disabled={endDisabled}
             >
-              <FaArrowRight />
+              <ArrowRight />
             </Button>
           </div>
         </div>

@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import { FaArrowRight } from "react-icons/fa";
-import { FaArrowLeft } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useQuery } from "@tanstack/react-query";
@@ -12,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { getMovies } from "@/api";
 import Movie from "../../-components/Movie";
 import type { Swiper as SwiperT } from "swiper/types";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const SgSlider = ({
   params,
@@ -91,14 +90,14 @@ const SgSlider = ({
                 ref={(node) => setPrevEl(node)}
                 disabled={startDisabled}
               >
-                <FaArrowLeft />
+                <ArrowLeft />
               </Button>
               <Button
                 className={`transition duration-100 ease-in text-sm rounded-lg w-7 h-7 flex-colo text-white`}
                 ref={(node) => setNextEl(node)}
                 disabled={endDisabled}
               >
-                <FaArrowRight />
+                <ArrowRight />
               </Button>
             </div>
           )}
