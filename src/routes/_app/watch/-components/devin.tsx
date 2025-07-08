@@ -30,6 +30,7 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import { Comment } from "./Comment";
+import TrailerSlider from "./TrailerSlider";
 
 export default function MovieWatchPage() {
   const [expandedComments, setExpandedComments] = React.useState<Set<number>>(
@@ -140,6 +141,7 @@ export default function MovieWatchPage() {
               </Accordion>
             </div>
             <Characters tmdb_id={tmdb_id} />
+            <TrailerSlider movie={movieData} />
             <Separator />
 
             {/* Comments Section */}
@@ -224,6 +226,7 @@ export default function MovieWatchPage() {
             </SheetContent>
           </Sheet>
           <Characters tmdb_id={tmdb_id} />
+          <TrailerSlider movie={movieData} />
           <Separator />
 
           {/* Mobile Comments Section */}

@@ -164,7 +164,20 @@ export type Movie = {
     src: string;
   }[];
 };
+type TrailersResponse = { id: number; results: TrailerResult[] };
 
+type TrailerResult = {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
+};
 export type UserUpdatePayload = Partial<
   Record<"plan_ids" | "hold_ids" | "dropped_ids" | "finished_ids", number[]>
 >;
@@ -267,3 +280,24 @@ export const trendingQueryOptions = queryOptions({
   queryKey: ["trending"],
   queryFn: getTrending,
 });
+
+const sortVideos = (videos: TrailerResult[]) => {
+  return videos.sort((a, b) => {
+    const aScore = (a.type === "Trailer" ? 2 : 0) + (a.official ? 1 : 0);
+    const bScore = (b.type === "Trailer" ? 2 : 0) + (b.official ? 1 : 0);
+    return bScore - aScore;
+  });
+};
+export const getTrailers = async (tmdb_id: string) => {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${tmdb_id}/videos?api_key=${TMDB_API_KEY}`,
+    {
+      method: "GET",
+      mode: "cors",
+      credentials: "omit",
+    }
+  );
+  let data = (await res.json()) as TrailersResponse;
+
+  return sortVideos(data?.results);
+};
