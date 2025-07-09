@@ -9,6 +9,7 @@ export const Route = createFileRoute("/_app")({
 function RouteComponent() {
   const { pathname } = useLocation();
   const atHome = pathname === "/";
+  const atWatch = pathname.includes("/watch");
 
   return (
     <>
@@ -16,7 +17,7 @@ function RouteComponent() {
         <Navbar />
 
         <MobileFooterNav />
-        <div className={atHome ? `lg:mt-36 mt-28` : ""}>
+        <div className={atHome ? `lg:mt-36 mt-28` : atWatch ? "mt-16" : ""}>
           <Outlet />
         </div>
       </div>

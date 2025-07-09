@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap");
 
 body {
   @apply font-sans;
@@ -10,216 +10,204 @@ body {
 
 /* globals.css */
 html {
-    font-size: 14px; /* Overrides rem-based sizing (1rem = 14px) */
-  }
-  
-:root {
-    --plyr-color-main: #14759f;
-    /* --plyr-captions-text-color:#14759f; */
-    --plyr-progress-loading-background: #14759f;
-    --media-buffering-size: 56px;
-    --media-buffering-track-width: 12;
-    --media-slider-track-fill-bg: #20a0d7;
+  font-size: 14px; /* Overrides rem-based sizing (1rem = 14px) */
+}
 
+:root {
+  --plyr-color-main: #14759f;
+  /* --plyr-captions-text-color:#14759f; */
+  --plyr-progress-loading-background: #14759f;
+  --media-buffering-size: 56px;
+  --media-buffering-track-width: 12;
+  --media-slider-track-fill-bg: #20a0d7;
 }
 
 .media-player {
-    /* Player CSS variables (defaults shown). */
-    --media-font-family: sans-serif;
-    --media-controls-color: #f5f5f5;
-    --media-focus-ring: 0 0 0 3px rgb(78 156 246);
+  /* Player CSS variables (defaults shown). */
+  --media-font-family: sans-serif;
+  --media-controls-color: #f5f5f5;
+  --media-focus-ring: 0 0 0 3px rgb(78 156 246);
 }
 
 .vds-button {
-    /* CSS variables available for customization (defaults shown). */
-    --media-button-color: var(--media-controls-color, #f5f5f5);
-    --media-button-size: 40px;
-    --media-button-icon-size: 80%;
-    --media-button-padding: 0px;
-    --media-button-border-radius: 8px;
-    --media-button-hover-bg: rgb(255 255 255 / 0.2);
-    --media-button-hover-transform: scale(1);
-    --media-button-hover-transition: transform 0.2s ease-in;
-    --media-button-touch-hover-border-radius: 100%;
-    --media-button-touch-hover-bg: rgb(255 255 255 / 0.2);
+  /* CSS variables available for customization (defaults shown). */
+  --media-button-color: var(--media-controls-color, #f5f5f5);
+  --media-button-size: 40px;
+  --media-button-icon-size: 80%;
+  --media-button-padding: 0px;
+  --media-button-border-radius: 8px;
+  --media-button-hover-bg: rgb(255 255 255 / 0.2);
+  --media-button-hover-transform: scale(1);
+  --media-button-hover-transition: transform 0.2s ease-in;
+  --media-button-touch-hover-border-radius: 100%;
+  --media-button-touch-hover-bg: rgb(255 255 255 / 0.2);
 }
 
 .vds-button[data-active] .pip-enter-icon,
 .vds-button:not([data-active]) .pip-exit-icon {
-    display: none;
+  display: none;
 }
 
 .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 body,
 html {
-    font-family: 'Poppins', 'sans-serif';
-    font-weight: 400;
-    overflow-x: hidden;
+  font-family: "Poppins", "sans-serif";
+  font-weight: 400;
+  overflow-x: hidden;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
-    outline: 0 !important;
-    box-shadow: none !important;
+  outline: 0 !important;
+  box-shadow: none !important;
 }
 
 .linear-bg {
-    background: linear-gradient(269.82deg, #07091c00 00 0.17%, #080a1ad6 99.87%);
+  background: linear-gradient(269.82deg, #07091c00 00 0.17%, #080a1ad6 99.87%);
 }
 
 .hoveres {
-    @apply hidden;
+  @apply hidden;
 }
 
 .hovered:hover .hoveres {
-    @apply flex-colo;
+  @apply flex-colo;
 }
 
 .flex-colo {
-    @apply flex flex-col justify-center items-center;
+  @apply flex flex-col justify-center items-center;
 }
 
 .flex-rows {
-    @apply flex flex-row justify-center items-center;
+  @apply flex flex-row justify-center items-center;
 }
 
 .flex-btn {
-    @apply flex justify-between items-center;
+  @apply flex justify-between items-center;
 }
 
 .transitions {
-    @apply transition duration-300 ease-in;
+  @apply transition duration-300 ease-in;
 }
 
 .zIndex {
-    z-index: 1000;
+  z-index: 1000;
 }
 
 .plyr.plyr--loading::after {
-    content: "";
-    position: absolute;
-    border: 5px solid rgb(255, 255, 255, 0.3);
-    @apply animate-spin rounded-full border-t-subMain my-auto mx-auto w-10 h-10 top-1/3 lg:top-2/4;
-    z-index: 10;
+  content: "";
+  position: absolute;
+  border: 5px solid rgb(255, 255, 255, 0.3);
+  @apply animate-spin rounded-full border-t-subMain my-auto mx-auto w-10 h-10 top-1/3 lg:top-2/4;
+  z-index: 10;
 }
 
 /* Add transition to table rows for smooth fading */
 .results-row {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-    /* Fade-in transition */
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  /* Fade-in transition */
 }
 
 .results-row.visible {
-    opacity: 1;
+  opacity: 1;
 }
 
 /* Hover effect for rows */
 
-
-
 @layer base {
   :root {
-        --background: 0 0% 100%;
-        --foreground: 0 0% 3.9%;
-        --card: 0 0% 100%;
-        --card-foreground: 0 0% 3.9%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 0 0% 3.9%;
-        --primary: 0 0% 9%;
-        --primary-foreground: 0 0% 98%;
-        --secondary: 0 0% 96.1%;
-        --secondary-foreground: 0 0% 9%;
-        --muted: 0 0% 96.1%;
-        --muted-foreground: 0 0% 45.1%;
-        --accent: 0 0% 96.1%;
-        --accent-foreground: 0 0% 9%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 89.8%;
-        --input: 0 0% 89.8%;
-        --ring: 0 0% 3.9%;
-        --chart-1: 12 76% 61%;
-        --chart-2: 173 58% 39%;
-        --chart-3: 197 37% 24%;
-        --chart-4: 43 74% 66%;
-        --chart-5: 27 87% 67%;
-        --radius: 0.5rem;
-
-    }
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
   .dark {
-        --background: 0 0% 3.9%;
-        --foreground: 0 0% 98%;
-        --card: 0 0% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 0 0% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 0 0% 9%;
-        --secondary: 0 0% 14.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 0 0% 14.9%;
-        --muted-foreground: 0 0% 63.9%;
-        --accent: 0 0% 14.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 14.9%;
-        --input: 0 0% 14.9%;
-        --ring: 0 0% 83.1%;
-        --chart-1: 220 70% 50%;
-        --chart-2: 160 60% 45%;
-        --chart-3: 30 80% 55%;
-        --chart-4: 280 65% 60%;
-        --chart-5: 340 75% 55%;
-
-    }
-
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
 }
-
-
 
 @layer base {
   * {
     @apply border-border;
-
-    }
+  }
   body {
     @apply bg-background text-foreground;
-
-    }
-
+  }
 }
 span.wrapper[style*="background-image"] {
-    border-radius: 0.5rem;
-    animation: fill 0.5s ease-in-out 0.5s forwards;
-    }
-    
-    @Keyframes fill {
-    from {
-    filter: blur(15px);
-    }
-    to {
-    filter: blur(0px) ;
-    }
-    }
+  border-radius: 0.5rem;
+  animation: fill 0.5s ease-in-out 0.5s forwards;
+}
 
-    @media (min-width: 1024px) {
-        .hide-scrollbar-lg {
-          scrollbar-width: none; /* Firefox */
-          -ms-overflow-style: none;  /* IE/Edge */
-        }
-        .hide-scrollbar-lg::-webkit-scrollbar {
-          display: none; /* Chrome, Safari */
-        }
-      }
-      
+@keyframes fill {
+  from {
+    filter: blur(15px);
+  }
+  to {
+    filter: blur(0px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hide-scrollbar-lg {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+  .hide-scrollbar-lg::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+}

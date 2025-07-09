@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  Play,
-  ThumbsUp,
-  ThumbsDown,
-  Share,
-  MoreHorizontal,
-} from "lucide-react";
+import { ThumbsUp, ThumbsDown, Share, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -31,6 +25,7 @@ import {
 } from "@/components/ui/accordion";
 import { Comment } from "./Comment";
 import TrailerSlider from "./TrailerSlider";
+import VideoPlayer from "./VideoPlayer";
 
 export default function MovieWatchPage() {
   const [expandedComments, setExpandedComments] = React.useState<Set<number>>(
@@ -85,13 +80,14 @@ export default function MovieWatchPage() {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6">
         {/* Video Player Section */}
-        <div className="aspect-video bg-black rounded-lg mb-6 relative">
+        {/* <div className="aspect-video bg-black rounded-lg mb-6 relative">
           <div className="absolute inset-0 flex items-center justify-center">
             <Button size="lg" className="rounded-full w-16 h-16">
               <Play className="h-8 w-8 ml-1" />
             </Button>
           </div>
-        </div>
+        </div> */}
+        <VideoPlayer movie={movieData} />
 
         {/* Desktop Layout */}
         <div className="hidden lg:grid lg:grid-cols-3 lg:gap-6">
