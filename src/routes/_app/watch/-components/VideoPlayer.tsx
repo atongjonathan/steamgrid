@@ -6,6 +6,7 @@ import {
   MediaPlayer,
   MediaProvider,
   Menu,
+  MenuInstance,
   PIPButton,
   Poster,
   SeekButton,
@@ -27,14 +28,16 @@ import {
   SeekForward10Icon,
   DownloadIcon,
 } from "@vidstack/react/icons";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { RefreshCcwDotIcon } from "lucide-react";
 
 const VideoPlayer = ({ movie }: { movie: Movie }) => {
+  const [src, setSrc] = useState(movie.stream);
   return (
     <MediaPlayer
-      src={{ src: movie.stream, type: "video/mp4" }}
+      src={{ src, type: "video/mp4" }}
       streamType="on-demand"
       logLevel="warn"
       crossOrigin
@@ -46,16 +49,22 @@ const VideoPlayer = ({ movie }: { movie: Movie }) => {
       <MediaProvider>
         <Poster className="vds-poster" />
       </MediaProvider>
-      <Layout movie={movie} />
+      <Layout movie={movie} setSrc={setSrc} />
     </MediaPlayer>
   );
 };
 
 export default VideoPlayer;
 
-const Layout = ({ movie }: { movie: Movie }) => {
+const Layout = ({
+  movie,
+  setSrc,
+}: {
+  movie: Movie;
+  setSrc: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const { user } = useAuth();
-  const menuref = useRef(null);
+  const menuref = useRef<MenuInstance>(null!);
 
   return (
     <DefaultVideoLayout
@@ -79,25 +88,30 @@ const Layout = ({ movie }: { movie: Movie }) => {
             >
               <QuestionMarkIcon className="vds-icon" />
             </Menu.Button>
-            <Menu.Items className="vds-menu-items" placement="top" offset={0}>
+            <Menu.Items
+              className="vds-menu-items"
+              placement="bottom"
+              offset={0}
+            >
               <Button
-              // onClick={(e) => {
-              //   // setSrc(movie.stream.replace("video", "dl"));
-              //   setTimeout(() => {
-              //     const progressData = JSON.parse(
-              //       localStorage.getItem(VIDEO_PROGRESS_KEY) || "{}"
-              //     );
-              //     setSrc((prev) => {
-              //       return movie.stream;
-              //     });
-              //     setInitialTime((prev) => {
-              //       return progressData[movie.id]?.time ?? 0;
-              //     });
-              //     menuref.current.close();
-              //   }, 10);
-              // }}
+                variant={"secondary"}
+                className="p-0"
+                onClick={() => {
+                  setSrc(movie.stream.replace("video", "dl"));
+                  setTimeout(() => {
+                    // const progressData = JSON.parse(
+                    //   localStorage.getItem(VIDEO_PROGRESS_KEY) || "{}"
+                    // );
+                    setSrc(movie.stream);
+                    // setInitialTime((prev) => {
+                    //   return progressData[movie.id]?.time ?? 0;
+                    // });
+                    menuref.current?.close();
+                  }, 10);
+                }}
               >
-                Loading too much? Click to refresh
+                <RefreshCcwDotIcon className="vds-icon" />
+                Refresh
               </Button>
             </Menu.Items>
           </Menu.Root>
