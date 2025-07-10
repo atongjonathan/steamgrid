@@ -159,7 +159,7 @@ const ActionItem: React.FC<ActionItemProps> = ({
 
   const handleClick = () => {
     if (!user) {
-      toast.info("You need to Login to use this feature");
+      toast.info("Please login to add movies collections");
       return;
     }
 

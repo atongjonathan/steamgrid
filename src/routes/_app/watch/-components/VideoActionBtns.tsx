@@ -48,8 +48,13 @@ const LikeBtn = ({ movie }: { movie: BannerMovie | Movie }) => {
     },
   });
 
+  const handleClick = () => {
+    if (user) mutate();
+    else toast.info("Please login to save your liked movies");
+  };
+
   return (
-    <Button variant="outline" size="sm" onClick={() => mutate()}>
+    <Button variant="outline" size="sm" onClick={handleClick}>
       {isPending ? (
         <Loader2Icon className="animate-spin" />
       ) : (

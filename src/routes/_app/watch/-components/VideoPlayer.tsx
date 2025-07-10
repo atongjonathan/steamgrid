@@ -10,6 +10,7 @@ import {
   PIPButton,
   Poster,
   SeekButton,
+  Track,
 } from "@vidstack/react";
 import {
   DefaultVideoLayout,
@@ -47,6 +48,15 @@ const VideoPlayer = ({ movie }: { movie: Movie }) => {
       aspectRatio="16x9"
     >
       <MediaProvider>
+        {movie.captions?.length > 0 && (
+          <Track
+            kind="captions"
+            lang={movie.captions[0].srclang}
+            src={movie.captions[0].src}
+            label={movie.captions[0].label}
+            default
+          />
+        )}
         <Poster className="vds-poster" />
       </MediaProvider>
       <Layout movie={movie} setSrc={setSrc} />
@@ -185,7 +195,7 @@ const DownloadButton = ({ user, stream, title, id }: DownloadButtonProps) => {
           link.download = `StreamGrid - ${title}`;
           link.click();
         } else {
-          toast.info("Only logged in users can download", {
+          toast.info("Please login to download " + `'${title}'`, {
             closeButton: true,
           });
         }
