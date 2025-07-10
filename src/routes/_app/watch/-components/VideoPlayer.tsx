@@ -29,13 +29,18 @@ import {
   SeekForward10Icon,
   DownloadIcon,
 } from "@vidstack/react/icons";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { RefreshCcwDotIcon } from "lucide-react";
 
 const VideoPlayer = ({ movie }: { movie: Movie }) => {
   const [src, setSrc] = useState(movie.stream);
+
+  useEffect(() => {
+    setSrc(movie.stream);
+  }, [movie.stream]);
+
   return (
     <MediaPlayer
       src={{ src, type: "video/mp4" }}
