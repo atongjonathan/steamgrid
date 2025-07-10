@@ -1,5 +1,4 @@
 import * as React from "react";
-import { ThumbsUp, ThumbsDown, Share, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -26,6 +25,7 @@ import {
 import { Comment } from "./Comment";
 import TrailerSlider from "./TrailerSlider";
 import VideoPlayer from "./VideoPlayer";
+import VideoActionBtns from "./VideoActionBtns";
 
 export default function MovieWatchPage() {
   const [expandedComments, setExpandedComments] = React.useState<Set<number>>(
@@ -79,14 +79,6 @@ export default function MovieWatchPage() {
     <div className="min-h-screen bg-background text-text">
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6">
-        {/* Video Player Section */}
-        {/* <div className="aspect-video bg-black rounded-lg mb-6 relative">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Button size="lg" className="rounded-full w-16 h-16">
-              <Play className="h-8 w-8 ml-1" />
-            </Button>
-          </div>
-        </div> */}
         <VideoPlayer movie={movieData} />
 
         {/* Desktop Layout */}
@@ -108,23 +100,7 @@ export default function MovieWatchPage() {
                     </Badge>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm">
-                    <ThumbsUp className="h-4 w-4 mr-2" />
-                    Like
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <ThumbsDown className="h-4 w-4 mr-2" />
-                    Dislike
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Share className="h-4 w-4 mr-2" />
-                    Share
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </div>
+                <VideoActionBtns movie={movieData} />
               </div>
 
               <Accordion type="single" collapsible>
@@ -137,13 +113,14 @@ export default function MovieWatchPage() {
               </Accordion>
             </div>
             <Characters tmdb_id={tmdb_id} />
-            <TrailerSlider movie={movieData} />
             <Separator />
+
+            <TrailerSlider movie={movieData} />
 
             {/* Comments Section */}
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="font-semibold text-text">
+                <h2 className="font-semibold text-sm text-text">
                   Comments ({movieData?.reviews?.length ?? 0})
                 </h2>
               </div>
@@ -180,20 +157,7 @@ export default function MovieWatchPage() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 overflow-x-auto">
-              <Button variant="outline" size="sm">
-                <ThumbsUp className="h-4 w-4 mr-1" />
-                Like
-              </Button>
-              <Button variant="outline" size="sm">
-                <ThumbsDown className="h-4 w-4 mr-1" />
-                Dislike
-              </Button>
-              <Button variant="outline" size="sm">
-                <Share className="h-4 w-4 mr-1" />
-                Share
-              </Button>
-            </div>
+            <VideoActionBtns movie={movieData} />
 
             {/* Mobile Movie Info Collapsible */}
           </div>
@@ -221,9 +185,11 @@ export default function MovieWatchPage() {
               <MovieInfo movie={movieData} />
             </SheetContent>
           </Sheet>
-          <Characters tmdb_id={tmdb_id} />
-          <TrailerSlider movie={movieData} />
           <Separator />
+
+          <Characters tmdb_id={tmdb_id} />
+          <Separator />
+          <TrailerSlider movie={movieData} />
 
           {/* Mobile Comments Section */}
           <div className="space-y-4">
@@ -231,7 +197,7 @@ export default function MovieWatchPage() {
               <SheetTrigger asChild className="m-0!">
                 <Card>
                   <CardHeader>
-                    <h2 className="font-semibold text-text">
+                    <h2 className="font-semibold text-sm text-text">
                       Comments ({movieData?.reviews?.length ?? 0})
                     </h2>
                   </CardHeader>

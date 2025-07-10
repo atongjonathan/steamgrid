@@ -126,7 +126,7 @@ const Layout = ({
             </PIPButton>
           ),
         },
-        downloadButton: user && (
+        downloadButton: (
           <DownloadButton
             user={user}
             stream={movie.stream}
@@ -151,7 +151,7 @@ const BackwardButton = () => (
   </SeekButton>
 );
 type DownloadButtonProps = {
-  user: User;
+  user?: User;
   stream: string;
   title: string;
   id: number;
@@ -161,14 +161,16 @@ const DownloadButton = ({ user, stream, title, id }: DownloadButtonProps) => {
   const { mutate } = useMutation({
     mutationKey: ["updateMe"],
     mutationFn: () => {
-      let { downloaded } = user;
-      const update: { downloaded_ids: number[] } = { downloaded_ids: [] };
-      const downloaded_ids = downloaded
-        .filter((item) => item.id !== id)
-        .map((item) => item.id);
-      downloaded_ids.push(id);
-      update.downloaded_ids = downloaded_ids;
-      return updateUser({ ...user, ...update }).then(() => fetchUser());
+      if (user) {
+        let { downloaded } = user;
+        const update: { downloaded_ids: number[] } = { downloaded_ids: [] };
+        const downloaded_ids = downloaded
+          .filter((item) => item.id !== id)
+          .map((item) => item.id);
+        downloaded_ids.push(id);
+        update.downloaded_ids = downloaded_ids;
+        return updateUser({ ...user, ...update }).then(() => fetchUser());
+      } else throw Error("No user found");
     },
   });
 

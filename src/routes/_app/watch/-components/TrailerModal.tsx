@@ -78,6 +78,8 @@ import YouTube from "react-youtube";
 
 export function TrailerVideo({ trailer }: TrailerVideoProps) {
   const opts = {
+    height: "390",
+    width: "640",
     playerVars: {
       autoplay: 1,
     },
