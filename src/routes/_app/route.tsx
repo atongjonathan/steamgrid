@@ -1,11 +1,22 @@
 import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router";
 import Navbar from "./-components/Navbar/Navbar";
 import MobileFooterNav from "./-components/Navbar/MobileFooterNav";
+import { FadeLoader } from "react-spinners";
 
 export const Route = createFileRoute("/_app")({
   component: RouteComponent,
 });
 
+export const PendingComponent = () => (
+  <section className="h-[80vh] flex justify-center items-center">
+    <FadeLoader
+      color={"#14759f"}
+      loading={true}
+      aria-label="Loading Spinner"
+      data-testid="loader"
+    />
+  </section>
+);
 function RouteComponent() {
   const { pathname } = useLocation();
   const atHome = pathname === "/";

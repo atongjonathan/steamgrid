@@ -3,9 +3,11 @@ import Banner from "./-components/Banner/Banner";
 import SgSlider from "./-components/SGSlider";
 import { trendingQueryOptions } from "@/api";
 import "swiper/css";
+import { PendingComponent } from "../route";
 
 export const Route = createFileRoute("/_app/")({
   component: RouteComponent,
+  pendingComponent: PendingComponent,
   loader: async ({ context }) => {
     try {
       const data =
